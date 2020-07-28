@@ -1,0 +1,21 @@
+<h1>Zaloguj się</h1>
+
+<form (submit)="loginUser($event)">
+  <div style="text-align: center; width:25vw">
+    <mat-form-field style="width:100%">
+      <mat-label>E-mail</mat-label>
+      <input matInput>
+    </mat-form-field><br>
+    <mat-form-field style="width:100%">
+        <mat-label>Hasło</mat-label>
+        <input matInput type="password">
+    </mat-form-field><br>
+    <button mat-button type="submit" (click)="this.utils.navigate('/')" id="username">
+        Zaloguj
+    </button>
+    <button mat-button color="warn" (click)="this.utils.navigate('/register')" id="password"> 
+        Zarejestruj
+    </button>
+  </div>
+    
+</form>

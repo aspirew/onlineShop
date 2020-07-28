@@ -1,0 +1,27 @@
+<form>
+  <mat-form-field style="width:40vw">
+    <mat-label>Szukaj produktu</mat-label>
+    <input matInput>
+  </mat-form-field>
+  <button mat-icon-button type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+
+<mat-grid-list [cols]="breakpoint" rowHeight="150px" (window:resize)="onResize($event)">
+    <mat-grid-tile
+    *ngFor="let tile of tiles">
+    <a href="#">
+      <img src="https://via.placeholder.com/350x150">
+    </a>
+    <mat-grid-tile-footer>
+        <span><a href="#">{{tile.text}}</a></span>
+        <span class="spacer"></span>
+        <span>{{tile.price}} zł</span>
+        <button mat-icon-button (click)="addToCart()" class="addToCart">
+            <mat-icon>shopping_cart</mat-icon>
+        </button>
+    </mat-grid-tile-footer>
+    </mat-grid-tile>
+</mat-grid-list>
+

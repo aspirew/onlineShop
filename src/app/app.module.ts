@@ -30,6 +30,9 @@ import { AuthService } from './auth.service'
 import { UtilsService } from './utils.service'
 import { AuthGuard } from './auth.guard';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatNativeDateModule } from '@angular/material/core';
+
 
 @NgModule({
   declarations: [
@@ -56,7 +59,15 @@ import { HttpClientModule } from '@angular/common/http';
     MatIconModule,
     MatListModule,
     RouterModule.forRoot(paths),
-    HttpClientModule
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    HttpClientModule,
+    MatNativeDateModule,
+    ReactiveFormsModule
   ],
   providers: [UtilsService, AuthService, AuthGuard],
   bootstrap: [AppComponent]

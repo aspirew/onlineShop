@@ -1,1 +1,101 @@
-<p>book-visit works!</p>
+<mat-horizontal-stepper linear #stepper>
+
+<mat-step #serviceStep label="Usługa" [completed]="service != null">
+    <mat-accordion>
+
+        <mat-expansion-panel *ngFor="let service of data">
+            <mat-expansion-panel-header>
+            <mat-panel-title>{{service.title}}</mat-panel-title>
+            <mat-panel-description>Długość : {{service.duration}} minut</mat-panel-description>
+        </mat-expansion-panel-header>
+        <img src="{{service.image}}" class="image">
+        <p>{{service.description}}</p>  
+            <mat-action-row>
+                <p>{{service.price}} zł
+                <button mat-button (click)="pickService(service.title)">Zarezerwuj</button>
+                </p>
+            </mat-action-row>
+        </mat-expansion-panel>
+
+    </mat-accordion>
+
+</mat-step>
+
+<mat-step label="Termin">
+
+    <div class="book-visit">
+
+    <div style="width: 360px;">
+
+    <button 
+    mat-icon-button 
+    disabled="false" 
+    class="dateChangeArrow"
+    (click)="setCheckedDate(false)">
+        <mat-icon>keyboard_arrow_left</mat-icon>
+    </button>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Dzień wizyty</mat-label>
+        <input 
+        matInput 
+        [matDatepicker]="picker" 
+        [matDatepickerFilter]="dateFilter" 
+        [(ngModel)]="pickedDate.value"
+        [value]="pickedDate.value"
+        (dateInput)="removeSelection()" 
+        (dateChange)="removeSelection()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker>"></mat-datepicker>
+      </mat-form-field>
+
+    <button 
+    mat-icon-button
+    class="dateChangeArrow"
+    (click)="setCheckedDate(true)">
+        <mat-icon>keyboard_arrow_right</mat-icon>
+    </button>
+
+    </div>
+
+      <div class="wrapper">
+
+        <div class="circle"
+            *ngFor="let item of items" 
+            (click)="pick(item)" 
+            [ngClass]="{'non-active': !(isActive(item)),
+            'isPressed': isPressed(item) }">
+            <div class="circle_inner"></div>
+                {{item}}
+            </div>
+      </div>
+    </div>
+
+    <mat-divider style="margin: 20px"></mat-divider>
+
+    <div class="summary">
+    
+        <h2>Podsumowanie: </h2>
+        <h3>Usługa: {{this.service}} </h3>
+        <h3>Dzień: {{this.parseDate}} </h3>
+        <h3>Godzina: {{this.hour}}</h3>
+        <div style="float:right">
+            <mat-form-field>
+                <mat-label>E-mail</mat-label>
+                <input type="email" matInput placeholder="email@przyklad.pl" [formControl]="email" required>
+                <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+            </mat-form-field><br>
+        <button 
+        type="submit" 
+        mat-raised-button 
+        color="primary"
+        [disabled]="reservationPossible"
+        >
+        Rezerwuj</button>
+        </div>
+    </div>
+    
+</mat-step>
+
+
+</mat-horizontal-stepper>

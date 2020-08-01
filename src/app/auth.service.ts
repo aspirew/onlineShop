@@ -35,9 +35,10 @@ private loggedInStatus = false
     })
   }
 
-  registerUser(username, password){
+  registerUser(username, email, password){
     return this.http.post<registerResponse>('/api/register', {
       username,
+      email,
       password
     })
   }

@@ -3,7 +3,7 @@
 <mat-step #serviceStep label="Usługa" [completed]="service != null">
     <mat-accordion>
 
-        <mat-expansion-panel *ngFor="let service of data">
+        <mat-expansion-panel *ngFor="let service of allServices">
             <mat-expansion-panel-header>
             <mat-panel-title>{{service.title}}</mat-panel-title>
             <mat-panel-description>Długość : {{service.duration}} minut</mat-panel-description>
@@ -12,7 +12,7 @@
         <p>{{service.description}}</p>  
             <mat-action-row>
                 <p>{{service.price}} zł
-                <button mat-button (click)="pickService(service.title)">Zarezerwuj</button>
+                <button mat-button (click)="pickService(service)">Zarezerwuj</button>
                 </p>
             </mat-action-row>
         </mat-expansion-panel>
@@ -76,7 +76,7 @@
     <div class="summary">
     
         <h2>Podsumowanie: </h2>
-        <h3>Usługa: {{this.service}} </h3>
+        <h3>Usługa: {{this.service?.title}} </h3>
         <h3>Dzień: {{this.parseDate}} </h3>
         <h3>Godzina: {{this.hour}}</h3>
         <div style="float:right">

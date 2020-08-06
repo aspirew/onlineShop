@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'
+import { UserService } from './user.service';
+
+import { userData } from './interfaces'
 
 interface myData {
   success: boolean,
@@ -7,7 +10,8 @@ interface myData {
 }
 
 interface registerResponse {
-  success : boolean
+  success : boolean,
+  message : string
 }
 
 @Injectable({
@@ -16,19 +20,28 @@ interface registerResponse {
 export class AuthService {
 
 private loggedInStatus = false
+private currentUser = null
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private user: UserService) { }
 
   setLoggedIn(value: boolean){
     this.loggedInStatus = value
+  }
+
+  setUserData(value: userData){
+    this.currentUser = value
+    console.log("set user data: " + value.username)
   }
 
   get isLoggedIn(){
     return this.loggedInStatus
   }
 
-  getUserDetails(email, password){
-    // post these details to API server, return user if correct
+  get userData(){
+    return this.currentUser
+  }
+
+  logUserIn(email, password){
     return this.http.post<myData>('/api/login', {
       email,
       password

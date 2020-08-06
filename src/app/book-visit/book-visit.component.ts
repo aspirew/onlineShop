@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import constants from '../../const/constants'
 import { UtilsService } from '../utils.service';
 import { MatStep, MatStepper } from '@angular/material/stepper';
+import { FetchServiceService } from '../fetch-service.service';
 
 @Component({
   selector: 'app-book-visit',
@@ -11,39 +12,7 @@ import { MatStep, MatStepper } from '@angular/material/stepper';
 })
 export class BookVisitComponent implements OnInit {
 
-  data = [
-    {
-      title: "Masaż normalny",
-      duration: 30,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu turpis non lorem sollicitudin varius. Curabitur bibendum, erat et imperdiet tempus, nibh felis porta quam, vitae interdum dui velit et augue. Nulla quis sagittis arcu, at facilisis risus. In hac habitasse platea dictumst. Donec sed dapibus turpis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam euismod sem et est elementum, sodales placerat elit semper. Suspendisse maximus condimentum nunc ac congue. Ut vehicula urna aliquet volutpat ultricies. Morbi eget risus hendrerit, tincidunt orci eu, ultrices arcu. Aenean bibendum nunc cursus mattis vulputate. Quisque sit amet ullamcorper est.",
-      image: "https://via.placeholder.com/150x150",
-      price: 50
-    },
-    {
-      title: "Masaż nienormalny",
-      duration: 60,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu turpis non lorem sollicitudin varius. Curabitur bibendum, erat et imperdiet tempus, nibh felis porta quam, vitae interdum dui velit et augue. Nulla quis sagittis arcu, at facilisis risus. In hac habitasse platea dictumst. Donec sed dapibus turpis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam euismod sem et est elementum, sodales placerat elit semper. Suspendisse maximus condimentum nunc ac congue. Ut vehicula urna aliquet volutpat ultricies. Morbi eget risus hendrerit, tincidunt orci eu, ultrices arcu. Aenean bibendum nunc cursus mattis vulputate. Quisque sit amet ullamcorper est.",
-      image: "https://via.placeholder.com/150x150",
-      price: 100
-    },
-    {
-      title: "Masowanko",
-      duration: 42,
-      description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam eu turpis non lorem sollicitudin varius. Curabitur bibendum, erat et imperdiet tempus, nibh felis porta quam, vitae interdum dui velit et augue. Nulla quis sagittis arcu, at facilisis risus. In hac habitasse platea dictumst. Donec sed dapibus turpis. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nullam euismod sem et est elementum, sodales placerat elit semper. Suspendisse maximus condimentum nunc ac congue. Ut vehicula urna aliquet volutpat ultricies. Morbi eget risus hendrerit, tincidunt orci eu, ultrices arcu. Aenean bibendum nunc cursus mattis vulputate. Quisque sit amet ullamcorper est.",
-      image: "https://via.placeholder.com/150x150",
-      price: 69
-    }
-  ]
-
-  reservations = [ 
-    {
-      service: "idk",
-      date: "Piątek 31 Lipca 2020",
-      hour: "9:00"
-    }
-]
-
-  items = ["7:30", "9:00", "12:30", "13:00", "14:00", "15:00", "16:00", "16:30", "17:00", "18:00"]
+  items = ["8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30"]
 
 
   @ViewChild('serviceStep') sStep: MatStep;
@@ -52,17 +21,29 @@ export class BookVisitComponent implements OnInit {
   pickedDate = null
   hour = null
   service = null
+  allServices = null
+  reservations = null
   email = new FormControl('', [Validators.required, Validators.email]);
   
-  constructor(private utils: UtilsService) { 
+  constructor(private utils: UtilsService, private fetchData: FetchServiceService) { 
+
     this.pickedDate = this.nextValidDate(new Date())
+
+    this.fetchData.getAllServices().subscribe((services) => {
+      this.allServices = services
+    })
+
+    this.fetchData.getAllReservations().subscribe((reservations) =>{
+      this.reservations = reservations
+    })
+
   }
 
   ngOnInit(): void {
   }
 
   isActive(hour) {
-    return !this.reservations.some(res => res.hour == hour && res.date == this.parseDate)
+    return !this.reservations?.some(res => res.hour == hour && res.date == this.parseDate)
   }
 
   isPressed(item){
@@ -99,7 +80,7 @@ export class BookVisitComponent implements OnInit {
     return new FormControl(tempDate);
   }
 
-  pick(item){
+  pick(item){ // inne elementy z ngFor może przez viewCHild
     if(this.isActive(item)){
       if(this.hour == item){
         this.hour = null

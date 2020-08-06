@@ -36,7 +36,7 @@
         <span>
           <button mat-button *ngIf="!isLoggedIn" (click)="this.utils.navigate('/login')">Zaloguj się</button>
 
-          <button mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">Witaj {{user}}</button>
+          <button mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">Witaj {{userName}}</button>
           <mat-menu #menu="matMenu">
             <button mat-menu-item (click)="this.utils.navigate('/delivery-data')">Dane dostawy</button>
             <button mat-menu-item (click)="this.utils.navigate('/visits')">Wizyty</button>
@@ -50,7 +50,9 @@
       </button>
     </mat-toolbar>
     <div class="container">
-      <ng-content #name></ng-content>
+      <div class="mat-typography">
+        <router-outlet (activate)="checkLoginState($event)"></router-outlet>
+      </div>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

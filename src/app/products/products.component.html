@@ -8,7 +8,7 @@
   </button>
 </form>
 
-<mat-grid-list [cols]="breakpoint" rowHeight="150px" (window:resize)="onResize($event)">
+<mat-grid-list [cols]="breakpoint" rowHeight="150px" (window:resize)="onResize($event)" gutterSize="10px">
     <mat-grid-tile
     *ngFor="let tile of tiles">
     <a href="#">
@@ -24,4 +24,3 @@
     </mat-grid-tile-footer>
     </mat-grid-tile>
 </mat-grid-list>
-

@@ -65,7 +65,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    HttpClientModule,
     MatNativeDateModule,
     ReactiveFormsModule
   ],

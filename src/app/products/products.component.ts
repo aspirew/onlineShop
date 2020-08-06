@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from '../user.service';
+import { subscribeOn } from 'rxjs/operators';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-products',
@@ -8,6 +11,7 @@ import { Component, OnInit } from '@angular/core';
 export class ProductsComponent implements OnInit {
 
   breakpoint = null
+  username = "unknown"
 
   tiles = [
     {text: 'One', price: 20},
@@ -16,10 +20,13 @@ export class ProductsComponent implements OnInit {
     {text: 'Four', price: 54},
   ];
 
-  constructor() { }
+  constructor(private user: UserService, private auth: AuthService) { }
 
   ngOnInit(): void {
     this.breakpoint = Math.floor(window.innerWidth / 400)
+    this.user.getData().subscribe(data => {
+      this.username = data.username
+    })
   }
 
   onResize(event){

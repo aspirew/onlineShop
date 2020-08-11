@@ -30,7 +30,6 @@ private currentUser = null
 
   setUserData(value: userData){
     this.currentUser = value
-    console.log("set user data: " + value.username)
   }
 
   get isLoggedIn(){
@@ -46,6 +45,10 @@ private currentUser = null
       email,
       password
     })
+  }
+
+  logUserOut(){
+    return this.http.get('/api/logout')
   }
 
   registerUser(username, email, password){

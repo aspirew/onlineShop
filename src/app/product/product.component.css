@@ -1,0 +1,51 @@
+.wrapper{
+    justify-content: center;
+    display: inline-block;
+    text-align: center;
+}
+
+.image{
+    margin: 5px;
+    width: min-content;
+    height: 150px;
+    display: inline-block;
+    border: 1px gray solid;
+}
+
+.actionButtons{
+    margin: 5px;
+    margin-left: 15px;
+    display: inline-block;
+    text-align: center;
+    vertical-align: top;
+}
+
+button {
+    margin: 5px;
+}
+
+h1 {
+    text-align: left;
+}
+
+h2 {
+    text-align: left;
+}
+
+mat-form-field{
+    width: 30px;
+    margin-left: 20px;
+    margin-right: 20px;
+    text-align: center;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.description{
+    text-align: justify;
+    padding: 10px;
+}

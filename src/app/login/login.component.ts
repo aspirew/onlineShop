@@ -14,11 +14,14 @@ export class LoginComponent implements OnInit{
 
   constructor(public utils : UtilsService, private auth: AuthService, private router: Router, private user: UserService) { }
 
+  beingLoaded = false
+
   ngOnInit(){
     console.log(this.auth.isLoggedIn)
   }
 
   loginUser(event){
+    this.beingLoaded = true
     event.preventDefault()
     const target = event.target
     const username = target.querySelector('#username').value

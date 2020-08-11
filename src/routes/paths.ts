@@ -8,6 +8,9 @@ import { LoginComponent } from '../app/login/login.component'
 import { RegisterComponent } from 'src/app/register/register.component'
 
 import { AuthGuard } from '../app/auth.guard'
+import { LogoutComponent } from 'src/app/logout/logout.component'
+import { ProductComponent } from 'src/app/product/product.component'
+import { PageNotFoundComponent } from 'src/app/page-not-found/page-not-found.component'
 
 
 export default [
@@ -38,10 +41,27 @@ export default [
     },
     {
         path: 'login',
-        component: LoginComponent
+        component: LoginComponent,
+        canActivate: [AuthGuard]
     },
     {
         path: 'register',
         component: RegisterComponent
+    },
+    {
+        path: 'logout',
+        component: LogoutComponent
+    },
+    {
+        path: 'product/:productName',
+        component: ProductComponent,
+    },
+    {
+        path: '404',
+        component: PageNotFoundComponent
+    },
+    {
+        path: '**',
+        redirectTo: '/404'
     }
 ]

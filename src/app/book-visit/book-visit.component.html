@@ -1,4 +1,6 @@
-<mat-horizontal-stepper linear #stepper>
+<mat-spinner *ngIf="!this.reservations"></mat-spinner>
+
+<mat-horizontal-stepper linear #stepper *ngIf="this.reservations">
 
 <mat-step #serviceStep label="Usługa" [completed]="service != null">
     <mat-accordion>
@@ -61,12 +63,12 @@
       <div class="wrapper">
 
         <div class="circle"
-            *ngFor="let item of items" 
-            (click)="pick(item)" 
-            [ngClass]="{'non-active': !(isActive(item)),
-            'isPressed': isPressed(item) }">
+            *ngFor="let hour of hours" 
+            (click)="pick(hour)" 
+            [ngClass]="{'non-active': !(isActive(hour)),
+            'isPressed': isPressed(hour) }">
             <div class="circle_inner"></div>
-                {{item}}
+                {{hour}}
             </div>
       </div>
     </div>

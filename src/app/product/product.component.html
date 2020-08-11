@@ -1,0 +1,31 @@
+<mat-spinner *ngIf="productData == null && isFound"></mat-spinner>
+<div *ngIf="!isFound">
+    <h1>Produktu nie znaleziono!</h1>
+    <h3>Przepraszamy ale podany produkt nie został znaleziony</h3>
+</div>
+<div style="text-align: center;">
+<div class="wrapper" *ngIf="productData != null">
+    <div class="image">
+        <img src="{{productData.imageURL}}">
+    </div>
+    <div class="actionButtons">
+        <h1>{{productData.name}}</h1>
+        <h2>{{productData.price}} zł</h2>
+        <button mat-mini-fab color=primary (click)="incrementSelectedNumber(-1)">-</button>
+        <mat-form-field>
+            <input 
+            matInput
+            type="number"
+            placeholder="/{{productData.quantity}}" 
+            [value]="selectedNumber" 
+            (change)="checkValidness($event)">
+        </mat-form-field>
+        <button mat-mini-fab color=primary (click)="incrementSelectedNumber(1)">+</button>
+        <button mat-raised-button color=primary style="width: 100%;">Dodaj do koszyka</button>
+    </div>
+    <div style="clear:both"></div>
+    <div class="description">
+        {{productData.description}}
+    </div>
+</div>
+</div>

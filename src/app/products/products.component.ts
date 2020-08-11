@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService } from '../user.service';
-import { subscribeOn } from 'rxjs/operators';
-import { AuthService } from '../auth.service';
+import { FetchServiceService } from '../fetch-service.service';
 
 @Component({
   selector: 'app-products',
@@ -11,26 +9,51 @@ import { AuthService } from '../auth.service';
 export class ProductsComponent implements OnInit {
 
   breakpoint = null
-  username = "unknown"
-
-  tiles = [
-    {text: 'One', price: 20},
-    {text: 'Two', price: 10},
-    {text: 'Three', price: 14},
-    {text: 'Four', price: 54},
-  ];
-
-  constructor(private user: UserService, private auth: AuthService) { }
+  allTiles = null
+  tiles = null
+  page = 1
+  allPages = 1
+  productsPerPage = 20
+  constructor(private fetch: FetchServiceService) { }
 
   ngOnInit(): void {
     this.breakpoint = Math.floor(window.innerWidth / 400)
-    this.user.getData().subscribe(data => {
-      this.username = data.username
+
+    this.fetch.getNumOfProducts().subscribe(num => {
+      this.allPages = Math.floor(num / this.productsPerPage)
+      if(this.productsPerPage % num != 0) this.allPages++
     })
+
+    this.setPage(this.page)
+
   }
 
   onResize(event){
     this.breakpoint = Math.floor(event.target.innerWidth / 400)
+  }
+
+  turnPage(num){
+    if(this.page + num > 0 && this.page + num <= this.allPages){
+      this.page += num
+      this.setPage(this.page)
+    }
+  }
+
+  turnToDesiredPage(input){
+    const val = input.target.value
+    if(val > 0 && val <= this.allPages) {
+      this.page = val
+      console.log(this.page)
+      this.setPage(this.page)
+    }
+    input.target.value = this.page
+  }
+
+  setPage(page){
+    this.tiles = null
+    this.fetch.getSomeProducts(page, this.productsPerPage).subscribe(data => {
+      this.tiles = data.filter(o => o.quantity > 0)
+    })
   }
 
   addToCart(){

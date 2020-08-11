@@ -5,6 +5,8 @@ import { UtilsService } from '../utils.service';
 import { MatStep, MatStepper } from '@angular/material/stepper';
 import { FetchServiceService } from '../fetch-service.service';
 
+import { serviceData, reservationData } from '../interfaces'
+
 @Component({
   selector: 'app-book-visit',
   templateUrl: './book-visit.component.html',
@@ -12,22 +14,25 @@ import { FetchServiceService } from '../fetch-service.service';
 })
 export class BookVisitComponent implements OnInit {
 
-  items = ["8:30", "9:00", "9:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30"]
-
-
   @ViewChild('serviceStep') sStep: MatStep;
   @ViewChild('stepper') stepper: MatStepper;
 
+  hours = constants.STANDARD_HOURS
   pickedDate = null
   hour = null
-  service = null
+  service : serviceData = null 
   allServices = null
-  reservations = null
+  reservations : Array<reservationData> = null
   email = new FormControl('', [Validators.required, Validators.email]);
   
   constructor(private utils: UtilsService, private fetchData: FetchServiceService) { 
 
-    this.pickedDate = this.nextValidDate(new Date())
+    var today = new Date()
+
+    if(this.dateFilter(today))
+      this.pickedDate = new FormControl(today)
+    else
+      this.pickedDate = this.nextValidDate(today)
 
     this.fetchData.getAllServices().subscribe((services) => {
       this.allServices = services
@@ -43,7 +48,13 @@ export class BookVisitComponent implements OnInit {
   }
 
   isActive(hour) {
-    return !this.reservations?.some(res => res.hour == hour && res.date == this.parseDate)
+      var numOfUnavailableDatesInARow = this.service?.duration / 30
+      var currentHourId = this.hours.indexOf(hour)
+      return !this.reservations?.some(res => {
+        return res.date == this.parseDate && 
+        !this.hours.slice(currentHourId, currentHourId + numOfUnavailableDatesInARow)
+        .every(h => this.hours.indexOf(h) < this.hours.indexOf(res.beginHour) || this.hours.indexOf(h) >= this.hours.indexOf(res.finishHour))
+      })
   }
 
   isPressed(item){
@@ -80,7 +91,7 @@ export class BookVisitComponent implements OnInit {
     return new FormControl(tempDate);
   }
 
-  pick(item){ // inne elementy z ngFor może przez viewCHild
+  pick(item){
     if(this.isActive(item)){
       if(this.hour == item){
         this.hour = null

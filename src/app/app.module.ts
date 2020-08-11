@@ -23,7 +23,6 @@ import { VisitsComponent } from './visits/visits.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
-import { ProductFieldComponent } from './product-field/product-field.component'
 
 import { AuthService } from './auth.service'
 
@@ -32,6 +31,9 @@ import { AuthGuard } from './auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import { LogoutComponent } from './logout/logout.component';
+import { ProductComponent } from './product/product.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
 @NgModule({
@@ -46,7 +48,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     ChangePasswordComponent,
     LoginComponent,
     RegisterComponent,
-    ProductFieldComponent
+    LogoutComponent,
+    ProductComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

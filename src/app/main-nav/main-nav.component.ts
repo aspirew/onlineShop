@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { ChangeDetectorRef } from '@angular/core';
 
 import { UserService } from '../user.service';
 import { AuthService } from '../auth.service';
@@ -39,6 +38,10 @@ export class MainNavComponent implements OnInit{
           this.userName = data.username
           this.auth.setLoggedIn(true)
           this.isLoggedIn = true
+        }
+        else{
+          this.userName = ""
+          this.isLoggedIn = false
         }
       })
     }

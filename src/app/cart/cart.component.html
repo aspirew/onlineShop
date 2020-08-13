@@ -1,0 +1,21 @@
+<h1>Koszyk</h1>
+
+<mat-spinner *ngIf="!isLoaded"></mat-spinner>
+
+<div *ngIf="isLoaded">
+
+    <h2 *ngIf="cart.length == 0">Twój koszyk jest pusty!</h2>
+
+    <div class="container" *ngIf="cart.length > 0">
+
+        <button mat-button (click)="emptyCart()">Opróżnij koszyk</button>
+
+        <div class="product"
+        *ngFor="let cartElement of cart">
+            {{cartElement.product.name}}
+            {{cartElement.quantity}}
+        </div>
+
+    </div>
+
+</div>

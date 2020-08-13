@@ -45,8 +45,8 @@
           </mat-menu>
         </span>
       </div>
-      <button mat-icon-button>
-        <mat-icon matBadge="{{notifications}}" matBadgeColor="accent">shopping_cart</mat-icon>
+      <button mat-icon-button (click)="this.utils.navigate('/cart')">
+        <mat-icon matBadge="{{cart}}" matBadgeColor="accent">shopping_cart</mat-icon>
       </button>
     </mat-toolbar>
     <div class="container">

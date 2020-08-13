@@ -31,3 +31,8 @@ export interface reservationData {
   beginHour: string,
   finishHour: string
 }
+
+export interface cartData {
+  productID: string,
+  quantity: number
+}

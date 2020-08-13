@@ -16,7 +16,8 @@ export class ProductComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private fetch: FetchServiceService) {
     this.route.params.subscribe(params => {
-      this.fetch.getProductByName(params.productName).subscribe(data => {
+      console.log(params)
+      this.fetch.getProductById(params._id).subscribe(data => {
         if(!data) this.isFound = false
         else this.productData = data
       })

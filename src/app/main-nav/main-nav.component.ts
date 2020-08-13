@@ -22,15 +22,21 @@ export class MainNavComponent implements OnInit{
 
   isLoggedIn = false
   userName = ""
-  notifications=0
+  cart = 0
 
   constructor(private breakpointObserver: BreakpointObserver, 
     private user: UserService, 
     private auth: AuthService,
     public utils: UtilsService
-    ) {}
+    ) {
+      utils.changeEmitted$.subscribe(num => {
+        this.cart = num
+      })
+    }
 
-    ngOnInit(){}
+    ngOnInit(){
+      this.cart = this.utils.getNumOfProductsInCart()
+    }
 
     checkLoginState(event){
       this.user.getData().subscribe(data => {

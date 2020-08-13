@@ -55,3 +55,8 @@ input::-webkit-inner-spin-button {
     justify-content: center;
     align-items: center;
 }
+
+.search{
+    text-align: left;
+    width: 40vw;
+}

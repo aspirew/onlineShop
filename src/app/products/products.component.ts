@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchServiceService } from '../fetch-service.service';
+import { UtilsService } from '../utils.service';
 
 @Component({
   selector: 'app-products',
@@ -14,7 +15,10 @@ export class ProductsComponent implements OnInit {
   page = 1
   allPages = 1
   productsPerPage = 20
-  constructor(private fetch: FetchServiceService) { }
+  constructor(
+    private fetch: FetchServiceService,
+    private utils: UtilsService
+    ) { }
 
   ngOnInit(): void {
     this.breakpoint = Math.floor(window.innerWidth / 400)
@@ -56,8 +60,8 @@ export class ProductsComponent implements OnInit {
     })
   }
 
-  addToCart(){
-    console.log("Pressed")
+  addToCart(itemID){
+    this.utils.addItemToCart(itemID) 
   }
 
 

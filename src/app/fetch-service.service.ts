@@ -30,6 +30,10 @@ export class FetchServiceService {
     return this.http.post<productData>('/api/product', {name})
   }
 
+  getProductById(ID){
+    return this.http.post<productData>('/api/productID', {ID})
+  }
+
   getNumOfProducts(){
     return this.http.get<number>('/api/products/quantity')
   }

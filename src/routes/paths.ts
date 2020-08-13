@@ -11,6 +11,7 @@ import { AuthGuard } from '../app/auth.guard'
 import { LogoutComponent } from 'src/app/logout/logout.component'
 import { ProductComponent } from 'src/app/product/product.component'
 import { PageNotFoundComponent } from 'src/app/page-not-found/page-not-found.component'
+import { CartComponent } from 'src/app/cart/cart.component'
 
 
 export default [
@@ -53,7 +54,11 @@ export default [
         component: LogoutComponent
     },
     {
-        path: 'product/:productName',
+        path: 'cart',
+        component: CartComponent
+    },
+    {
+        path: 'product/:name/:_id',
         component: ProductComponent,
     },
     {

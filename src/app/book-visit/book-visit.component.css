@@ -10,8 +10,15 @@
     flex-direction: column;
 }
 
+.centerer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .wrapper {
-    width: auto;
+    display: inline-block;
+    text-align: center;
 }
 
 .circle {

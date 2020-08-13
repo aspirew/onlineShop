@@ -34,6 +34,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { LogoutComponent } from './logout/logout.component';
 import { ProductComponent } from './product/product.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { CartComponent } from './cart/cart.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
     RegisterComponent,
     LogoutComponent,
     ProductComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    CartComponent
   ],
   imports: [
     BrowserModule,

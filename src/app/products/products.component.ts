@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchServiceService } from '../fetch-service.service';
 import { UtilsService } from '../utils.service';
+import { CartService } from '../cart.service';
 
 @Component({
   selector: 'app-products',
@@ -17,7 +18,7 @@ export class ProductsComponent implements OnInit {
   productsPerPage = 20
   constructor(
     private fetch: FetchServiceService,
-    private utils: UtilsService
+    private cartService: CartService
     ) { }
 
   ngOnInit(): void {
@@ -61,7 +62,11 @@ export class ProductsComponent implements OnInit {
   }
 
   addToCart(itemID){
-    this.utils.addItemToCart(itemID) 
+    this.cartService.addItemToCart(itemID, 1) 
+  }
+
+  getDecodedUri(name: String){
+    return name.replace(" ", "-")
   }
 
 

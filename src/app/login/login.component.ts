@@ -17,7 +17,6 @@ export class LoginComponent implements OnInit{
   beingLoaded = false
 
   ngOnInit(){
-    console.log(this.auth.isLoggedIn)
   }
 
   loginUser(event){
@@ -30,13 +29,7 @@ export class LoginComponent implements OnInit{
     this.auth.logUserIn(username, password).subscribe(data => {
 
       if(data.success){
-        this.auth.setLoggedIn(true)
-        this.user.getData().subscribe(data => {
-          if(data.success){
-            this.auth.setUserData(data)
-          }
-          this.router.navigate(['/'])
-        })
+        this.router.navigate(['/'])
       } else {
         window.alert(data.message)
       }

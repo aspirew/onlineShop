@@ -86,7 +86,7 @@
         <h3>Dzień: {{this.parseDate}} </h3>
         <h3>Godzina: {{this.hour}}</h3>
         <div style="float:right">
-            <mat-form-field>
+            <mat-form-field *ngIf="!isLoggedIn">
                 <mat-label>E-mail</mat-label>
                 <input type="email" matInput placeholder="email@przyklad.pl" [formControl]="email" required>
                 <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
@@ -95,8 +95,8 @@
         type="submit" 
         mat-raised-button 
         color="primary"
-        [disabled]="reservationPossible"
-        >
+        [disabled]="!reservationPossible"
+        (click)="bookReservation()">
         Rezerwuj</button>
         </div>
     </div>

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { productData, reservationData, serviceData } from './interfaces'
+import { productData, reservationData, serviceData, constants } from './interfaces'
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,6 @@ export class FetchServiceService {
 
   getAllServices(){
     return this.http.get<Array<serviceData>>('/api/services')
-  }
-
-  getAllReservations(){
-    return this.http.get<Array<reservationData>>('/api/reservations')
   }
 
   getAllProducts(){
@@ -36,6 +32,10 @@ export class FetchServiceService {
 
   getNumOfProducts(){
     return this.http.get<number>('/api/products/quantity')
+  }
+
+  getConstants(){
+    return this.http.get<constants>('/api/constants')
   }
 
 }

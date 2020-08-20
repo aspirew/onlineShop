@@ -1,11 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import constants from '../../const/constants'
 import { UtilsService } from '../utils.service';
 import { MatStep, MatStepper } from '@angular/material/stepper';
 import { FetchServiceService } from '../fetch-service.service';
 
 import { serviceData, reservationData } from '../interfaces'
+import { UserService } from '../user.service';
+import { ReservationsService } from '../reservations.service';
+import { constants } from 'buffer';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-visit',
@@ -17,34 +20,55 @@ export class BookVisitComponent implements OnInit {
   @ViewChild('serviceStep') sStep: MatStep;
   @ViewChild('stepper') stepper: MatStepper;
 
-  hours = constants.STANDARD_HOURS
+  constants = null
+  hours = null
   pickedDate = null
   hour = null
   service : serviceData = null 
   allServices = null
   reservations : Array<reservationData> = null
   email = new FormControl('', [Validators.required, Validators.email]);
+  isLoggedIn = false;
   
-  constructor(private utils: UtilsService, private fetchData: FetchServiceService) { 
+  constructor(private utils: UtilsService, 
+    private fetchData: FetchServiceService,
+    private user: UserService,
+    private reservationService: ReservationsService,
+    private router: Router) { 
 
     var today = new Date()
 
+    this.fetchData.getConstants().subscribe(res => {
+    this.constants = res
+    this.hours = this.constants.STANDARD_HOURS
+      this.dateFilter = date => {
+        const day = date.getDay()
+        return !this.constants.CLOSED_AT.includes(day) && new Date(date.setHours(this.constants.OPENED_UNTIL)) > new Date()
+      }
+    
     if(this.dateFilter(today))
       this.pickedDate = new FormControl(today)
     else
       this.pickedDate = this.nextValidDate(today)
+      
+    })
 
     this.fetchData.getAllServices().subscribe((services) => {
       this.allServices = services
     })
 
-    this.fetchData.getAllReservations().subscribe((reservations) =>{
+    this.reservationService.getAllReservations().subscribe((reservations) =>{
       this.reservations = reservations
+    })
+
+    this.user.isLoggedIn().subscribe(u => {
+      this.isLoggedIn = u.status
     })
 
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    
   }
 
   isActive(hour) {
@@ -53,7 +77,8 @@ export class BookVisitComponent implements OnInit {
       return !this.reservations?.some(res => {
         return res.date == this.parseDate && 
         !this.hours.slice(currentHourId, currentHourId + numOfUnavailableDatesInARow)
-        .every(h => this.hours.indexOf(h) < this.hours.indexOf(res.beginHour) || this.hours.indexOf(h) >= this.hours.indexOf(res.finishHour))
+        .every(h => this.hours.indexOf(h) < this.hours.indexOf(res.beginHour) 
+          || (res.finishHour && this.hours.indexOf(h) >= this.hours.indexOf(res.finishHour)))
       })
   }
 
@@ -61,9 +86,8 @@ export class BookVisitComponent implements OnInit {
     return this.hour == item
   }
 
-  dateFilter = date => {
-    const day = date.getDay()
-    return !constants.CLOSED_AT.includes(day) && new Date(date.setHours(constants.OPENED_UNTIL)) > new Date()
+  dateFilter = _ => {
+    return true
   }
 
   get parseDate() {
@@ -117,8 +141,8 @@ export class BookVisitComponent implements OnInit {
     else this.pickedDate = this.previousValidDate(this.pickedDate.value)
   }
 
-  get reservationPossible() {
-    return !(this.dateFilter(this.pickedDate.value) && this.hour && this.service && !this.email.invalid)
+  get reservationPossible() {    
+    return this.dateFilter(this.pickedDate.value) && this.hour && this.service && (!this.email.invalid || this.isLoggedIn)
   }
 
   getEmailErrorMessage() {
@@ -127,6 +151,24 @@ export class BookVisitComponent implements OnInit {
     }
 
     return this.email.hasError('email') ? 'Błędny adres email' : ''
+  }
+
+  async bookReservation(){
+    let email = this.email.value
+
+    if(this.isLoggedIn)
+      email = (await this.user.getData().toPromise()).email
+      
+    this.reservationService.makeReservation({
+      email: email,
+      service: this.service._id,
+      date: this.parseDate,
+      beginHour: this.hour,
+      finishHour: null}).subscribe(res => {
+        if(!res.success) alert(res.message)
+        else this.router.navigate(['/'])
+      })
+    
   }
 
 }

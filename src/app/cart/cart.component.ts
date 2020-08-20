@@ -1,13 +1,11 @@
-import { Component, OnInit } from '@angular/core';
-import { UtilsService } from '../utils.service';
-import { productData } from '../interfaces'
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { cartInterface } from '../interfaces'
 import { FetchServiceService } from '../fetch-service.service';
-import { utils } from 'protractor';
-
-interface cartInterface {
-  product: productData,
-  quantity: number
-}
+import { Observable } from 'rxjs';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { map, shareReplay } from 'rxjs/operators';
+import { CartService } from '../cart.service';
+var mongoose = require('mongoose');
 
 @Component({
   selector: 'app-cart',
@@ -16,34 +14,63 @@ interface cartInterface {
 })
 
 
-export class CartComponent implements OnInit {
+export class CartComponent implements OnDestroy {
 
   cart : Array<cartInterface> = []
   isLoaded = false
+  summedPrice = 0
 
-  constructor(private utils: UtilsService, private fetch: FetchServiceService) { 
-    let tmpCart = this.utils.getProductsInCart()
+  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
+  .pipe(
+    map(result => result.matches),
+    shareReplay()
+  );
+
+  constructor(private cartService: CartService, private fetch: FetchServiceService, private breakpointObserver: BreakpointObserver) { 
+    let tmpCart = this.cartService.getProductsInCart()
     let resolved = 0
-    if(tmpCart){
+    if(tmpCart.length > 0){
       tmpCart.forEach(p => this.fetch.getProductById(p.productID).toPromise()
         .then(
           res => { 
             this.cart.push( { product: res, quantity: p.quantity } )
-            if(++resolved == tmpCart.length) this.isLoaded = true
+            if(++resolved >= tmpCart.length){
+              this.summedPrice = this.calculateSummedPrice()
+              this.isLoaded = true
+            } 
           }
         ))
+        
     }
     else this.isLoaded = true
-    
   }
 
-  ngOnInit(): void {
+  ngOnDestroy() {
+    this.cartService.saveNewCart(this.cart)
   }
 
-  emptyCart(){
-    localStorage.clear()
-    this.cart = []
-    this.utils.changeNumOfProducts(0)
+  increaseNumItem(item: cartInterface, num: number){
+    if(item.product.quantity >= item.quantity + num)
+      if(item.quantity + num >= 0){
+        item.quantity+=num
+        this.summedPrice = this.calculateSummedPrice()
+      }
+      else
+        return
+    else
+      console.log("Brak wystarczającej ilości w magazynie")
+  }
+
+  removeElementFromCart(itemID: string){
+    console.log("removing")
+    this.cartService.deleteProductFromCart(itemID)
+    var index = this.cart.indexOf(this.cart.find(p => mongoose.Types.ObjectId(p.product._id) == itemID));
+    this.cart.splice(index, 1)
+    this.summedPrice = this.calculateSummedPrice()
+  }
+
+  calculateSummedPrice(){
+    return this.cart.reduce((acc, p) => acc + p.quantity * p.product.price, 0)
   }
 
 }

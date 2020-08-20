@@ -8,6 +8,7 @@ export interface userData {
 }
 
 export interface productData {
+  _id: Types.ObjectId
   name: string,
 	price: number,
 	description: string,
@@ -17,6 +18,7 @@ export interface productData {
 }
 
 export interface serviceData {
+  _id: Types.ObjectId,
   title: string,
   duration: number,
   description: string,
@@ -33,6 +35,17 @@ export interface reservationData {
 }
 
 export interface cartData {
-  productID: string,
+  productID: Types.ObjectId,
   quantity: number
+}
+
+export interface cartInterface {
+  product: productData,
+  quantity: number
+}
+
+export interface constants {
+  STANDARD_HOURS: Array<string>,
+  CLOSED_AT: Array<number>,
+  OPENED_UNTIL: number
 }

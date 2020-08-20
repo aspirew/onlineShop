@@ -29,23 +29,23 @@
       <span class="spacer"></span>
       <div [ngClass]="{hidden: (isHandset$ | async)}">
         <span class="menu">
-          <button mat-button (click)="this.utils.navigate('/')">Produkty</button>
-          <button mat-button (click)="this.utils.navigate('/book-visit')">Umów wizytę</button>
-          <button mat-button (click)="this.utils.navigate('/contact')" style="margin-right: 10px;">Kontakt</button>
+          <button mat-button (click)="this.router.navigate(['/'])">Produkty</button>
+          <button mat-button (click)="this.router.navigate(['/book-visit'])">Umów wizytę</button>
+          <button mat-button (click)="this.router.navigate(['/contact'])" style="margin-right: 10px;">Kontakt</button>
         </span>
         <span>
-          <button mat-button *ngIf="!isLoggedIn" (click)="this.utils.navigate('/login')">Zaloguj się</button>
+          <button mat-button *ngIf="!isLoggedIn" (click)="this.router.navigate(['/login'])">Zaloguj się</button>
 
           <button mat-button *ngIf="isLoggedIn" [matMenuTriggerFor]="menu">Witaj {{userName}}</button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item (click)="this.utils.navigate('/delivery-data')">Dane dostawy</button>
-            <button mat-menu-item (click)="this.utils.navigate('/visits')">Wizyty</button>
-            <button mat-menu-item (click)="this.utils.navigate('/change-password')">Zmiana hasła</button>
-            <button mat-menu-item class="logout-button" (click)="this.utils.navigate('/logout')">Wyloguj</button>
+            <button mat-menu-item (click)="this.router.navigate(['/delivery-data'])">Dane dostawy</button>
+            <button mat-menu-item (click)="this.router.navigate(['/visits'])">Wizyty</button>
+            <button mat-menu-item (click)="this.router.navigate(['/change-password'])">Zmiana hasła</button>
+            <button mat-menu-item class="logout-button" (click)="this.router.navigate(['/logout'])">Wyloguj</button>
           </mat-menu>
         </span>
       </div>
-      <button mat-icon-button (click)="this.utils.navigate('/cart')">
+      <button mat-icon-button (click)="this.router.navigate(['/cart'])">
         <mat-icon matBadge="{{cart}}" matBadgeColor="accent">shopping_cart</mat-icon>
       </button>
     </mat-toolbar>

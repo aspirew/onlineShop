@@ -6,6 +6,8 @@ import { map, shareReplay } from 'rxjs/operators';
 import { UserService } from '../user.service';
 import { AuthService } from '../auth.service';
 import { UtilsService } from '../utils.service';
+import { CartService } from '../cart.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-main-nav',
@@ -27,22 +29,22 @@ export class MainNavComponent implements OnInit{
   constructor(private breakpointObserver: BreakpointObserver, 
     private user: UserService, 
     private auth: AuthService,
-    public utils: UtilsService
+    private cartService: CartService,
+    public router: Router
     ) {
-      utils.changeEmitted$.subscribe(num => {
+      cartService.changeEmitted$.subscribe(num => {
         this.cart = num
       })
     }
 
     ngOnInit(){
-      this.cart = this.utils.getNumOfProductsInCart()
+      this.cart = this.cartService.getNumOfProductsInCart()
     }
 
     checkLoginState(event){
       this.user.getData().subscribe(data => {
         if(data.success){
           this.userName = data.username
-          this.auth.setLoggedIn(true)
           this.isLoggedIn = true
         }
         else{

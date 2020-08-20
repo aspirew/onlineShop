@@ -15,11 +15,11 @@
 <mat-grid-list [cols]="breakpoint" rowHeight="200px" (window:resize)="onResize($event)" gutterSize="10px">
     <mat-grid-tile
     *ngFor="let tile of tiles">
-    <a [routerLink]="['/product', tile._id]">
+    <a [routerLink]="['/product', getDecodedUri(tile.name), tile._id]">
       <img src='{{tile.imageURL}}'>
     </a>
     <mat-grid-tile-footer>
-        <span><a [routerLink]="['/product', tile.name, tile._id]">{{tile.name}}</a></span>
+        <span><a [routerLink]="['/product', getDecodedUri(tile.name), tile._id]">{{tile.name}}</a></span>
         <span class="spacer"></span>
         <span>{{tile.price}} zł</span>
         <button mat-icon-button (click)="addToCart(tile._id)" class="addToCart">

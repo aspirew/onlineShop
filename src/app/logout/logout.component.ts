@@ -15,7 +15,6 @@ export class LogoutComponent implements OnInit {
     this.auth.logUserOut().subscribe(res => {
       console.log(res)
       if(res){
-        this.auth.setUserData(null)
         this.route.navigate(['/'])
       }
     })

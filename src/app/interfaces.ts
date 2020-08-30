@@ -4,7 +4,19 @@ export interface userData {
   success: boolean,
   email: string,
   username: string,
-  points: number
+  points: number,
+  deliveryDetails: deliveryData,
+  cart: Array<cartData>
+}
+
+export interface deliveryData {
+  name: string,
+	surname: string,
+	street: string,
+	houseNum: number,
+	flatNum: number,
+	city: string,
+	zip: string
 }
 
 export interface productData {
@@ -14,7 +26,7 @@ export interface productData {
 	description: string,
 	quantity: number,
   tags: [string],
-  imageURL: string
+  image_url: string
 }
 
 export interface serviceData {
@@ -29,6 +41,7 @@ export interface serviceData {
 export interface reservationData {
   email: string,
   service: Types.ObjectId,
+  status: string,
   date: string,
   beginHour: string,
   finishHour: string

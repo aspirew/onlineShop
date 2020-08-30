@@ -6,35 +6,37 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { RouterModule } from '@angular/router'
 import { MaterialModule } from './material/material.module';
-import { MainNavComponent } from './main-nav/main-nav.component';
+import { MainNavComponent } from './components/main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
-import { ProductsComponent } from './products/products.component';
-import { BookVisitComponent } from './book-visit/book-visit.component';
+import { ProductsComponent } from './components/products/products.component';
+import { BookVisitComponent } from './components/book-visit/book-visit.component';
 
 import paths from '../routes/paths';
-import { ContactComponent } from './contact/contact.component';
-import { DeliveryDataComponent } from './delivery-data/delivery-data.component';
-import { VisitsComponent } from './visits/visits.component';
-import { ChangePasswordComponent } from './change-password/change-password.component';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
+import { ContactComponent } from './components/contact/contact.component';
+import { DeliveryDataComponent } from './components/delivery-data/delivery-data.component';
+import { VisitsComponent } from './components/visits/visits.component';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
 
-import { AuthService } from './auth.service'
+import { AuthService } from './services/auth.service'
 
-import { UtilsService } from './utils.service'
+import { UtilsService } from './services/utils.service'
 import { AuthGuard } from './auth.guard';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
-import { LogoutComponent } from './logout/logout.component';
-import { ProductComponent } from './product/product.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-import { CartComponent } from './cart/cart.component';
+import { LogoutComponent } from './components/logout/logout.component';
+import { ProductComponent } from './components/product/product.component';
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { CartComponent } from './components/cart/cart.component';
+import { AdminLoginComponent } from './components/admin-login/admin-login.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 
 @NgModule({
@@ -52,7 +54,9 @@ import { CartComponent } from './cart/cart.component';
     LogoutComponent,
     ProductComponent,
     PageNotFoundComponent,
-    CartComponent
+    CartComponent,
+    AdminLoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,

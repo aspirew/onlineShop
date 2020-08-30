@@ -1,0 +1,12 @@
+<form (ngSubmit)="loginAdmin()">
+  <div style="text-align: center; width:25vw">
+    <mat-form-field style="width:100%">
+        <mat-label>Hasło</mat-label>
+        <input matInput type="password" name="password" [(ngModel)]="password">
+    </mat-form-field><br>
+    <button mat-button type="submit">
+        Zaloguj
+    </button>
+  </div>
+
+</form>

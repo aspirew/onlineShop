@@ -1,0 +1,46 @@
+
+<mat-spinner *ngIf="!this.tiles"></mat-spinner>
+
+<div *ngIf="this.tiles">
+<form>
+  <mat-form-field class="search">
+    <mat-label >Szukaj produktu</mat-label>
+    <input matInput>
+  </mat-form-field>
+  <button mat-icon-button type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+
+<mat-grid-list [cols]="breakpoint" rowHeight="200px" (window:resize)="onResize($event)" gutterSize="10px">
+    <mat-grid-tile
+    *ngFor="let tile of tiles">
+    <a [routerLink]="['/product', getDecodedUri(tile.name), tile._id]">
+      <img src='{{tile.image_url}}'>
+    </a>
+    <mat-grid-tile-footer>
+        <span><a [routerLink]="['/product', getDecodedUri(tile.name), tile._id]">{{tile.name}}</a></span>
+        <span class="spacer"></span>
+        <span>{{tile.price}} zł</span>
+        <button mat-icon-button (click)="addToCart(tile._id)" class="addToCart">
+            <mat-icon>shopping_cart</mat-icon>
+        </button>
+    </mat-grid-tile-footer>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<div class = "centerer">
+<div class="pageTurnButtons">
+  <button mat-button color=primary disableRipple (click)="turnPage(-1)"><</button>
+    <mat-form-field>
+        <input
+        matInput
+        type="number"
+        placeholder="/{{allPages}}"
+        [value]="page"
+        (change)="turnToDesiredPage($event)">
+    </mat-form-field>
+  <button mat-button color=primary disableRipple (click)="turnPage(1)">></button>
+</div>
+</div>
+</div>

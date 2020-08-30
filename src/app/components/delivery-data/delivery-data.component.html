@@ -1,0 +1,41 @@
+<div>
+<h1>Dane dostawy</h1>
+
+<form (ngSubmit)="saveDetails()">
+  <div style="text-align: center;">
+    <mat-form-field class="big">
+      <mat-label>Imię</mat-label>
+      <input matInput name="name" [(ngModel)]="name">
+    </mat-form-field>
+    <mat-form-field class="big">
+        <mat-label>Nazwisko</mat-label>
+        <input matInput name="surname" [(ngModel)]="surname">
+      </mat-form-field><br>
+    <mat-form-field class="big">
+        <mat-label>Ulica</mat-label>
+        <input matInput name="street" [(ngModel)]="street">
+    </mat-form-field>
+    <mat-form-field class="small">
+        <mat-label>Nr domu</mat-label>
+        <input matInput name="houseNum" [(ngModel)]="houseNum">
+    </mat-form-field>
+    <mat-form-field class="small">
+        <mat-label>Nr lokalu</mat-label>
+        <input matInput name="flatNum" [(ngModel)]="flatNum">
+    </mat-form-field>
+    <mat-form-field class="big">
+        <mat-label>Miejscowość</mat-label>
+        <input matInput name="city" [(ngModel)]="city">
+    </mat-form-field>
+    <mat-form-field class="small">
+        <mat-label>Kod pocztowy</mat-label>
+        <input matInput name="zip" [(ngModel)]="zip">
+    </mat-form-field><br>
+    <button mat-button type="submit" color="warn">
+        Zapisz
+    </button>
+    <div style="clear:both"></div>
+  </div>
+
+</form>
+</div>

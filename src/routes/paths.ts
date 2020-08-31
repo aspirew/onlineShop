@@ -8,12 +8,17 @@ import { LoginComponent } from '../app/components/login/login.component'
 import { RegisterComponent } from 'src/app/components/register/register.component'
 
 import { AuthGuard } from '../app/auth.guard'
+import { AdminGuard } from '../app/admin.guard'
+
 import { LogoutComponent } from 'src/app/components/logout/logout.component'
 import { ProductComponent } from 'src/app/components/product/product.component'
 import { PageNotFoundComponent } from 'src/app/components/page-not-found/page-not-found.component'
 import { CartComponent } from 'src/app/components/cart/cart.component'
 import { AdminLoginComponent } from 'src/app/components/admin-login/admin-login.component'
 import { DashboardComponent } from 'src/app/components/dashboard/dashboard.component'
+import { ProductsAdminComponent } from 'src/app/components/products-admin/products-admin.component'
+import { ReservationsAdminComponent } from 'src/app/components/reservations-admin/reservations-admin.component'
+import { OrdersAdminComponent } from 'src/app/components/orders-admin/orders-admin.component'
 
 
 export default [
@@ -68,7 +73,23 @@ export default [
     },
     {
       path: 'admin/dashboard',
-      component: DashboardComponent
+      component: DashboardComponent,
+      canActivate: [AdminGuard]
+    },
+    {
+      path: 'admin/products',
+      component: ProductsAdminComponent,
+      canActivate: [AdminGuard]
+    },
+    {
+      path: 'admin/reservations',
+      component: ReservationsAdminComponent,
+      canActivate: [AdminGuard]
+    },
+    {
+      path: 'admin/orders',
+      component: OrdersAdminComponent,
+      canActivate: [AdminGuard]
     },
     {
         path: '404',

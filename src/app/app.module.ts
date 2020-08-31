@@ -28,6 +28,7 @@ import { AuthService } from './services/auth.service'
 
 import { UtilsService } from './services/utils.service'
 import { AuthGuard } from './auth.guard';
+import { AdminGuard } from './admin.guard'
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -37,6 +38,9 @@ import { PageNotFoundComponent } from './components/page-not-found/page-not-foun
 import { CartComponent } from './components/cart/cart.component';
 import { AdminLoginComponent } from './components/admin-login/admin-login.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ProductsAdminComponent } from './components/products-admin/products-admin.component';
+import { ReservationsAdminComponent } from './components/reservations-admin/reservations-admin.component';
+import { OrdersAdminComponent } from './components/orders-admin/orders-admin.component';
 
 
 @NgModule({
@@ -56,7 +60,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     PageNotFoundComponent,
     CartComponent,
     AdminLoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    ProductsAdminComponent,
+    ReservationsAdminComponent,
+    OrdersAdminComponent
   ],
   imports: [
     BrowserModule,
@@ -78,7 +85,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatNativeDateModule,
     ReactiveFormsModule
   ],
-  providers: [UtilsService, AuthService, AuthGuard],
+  providers: [UtilsService, AuthService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -19,10 +19,9 @@ export class AdminLoginComponent implements OnInit {
   async loginAdmin(){
     console.log("logging in")
     this.admin.loginAdmin(this.password).subscribe(res => {
-      if(res){
-        this.router.navigate(['admin/dashboard'])
+      if(res.status){
+        this.router.navigate(['/admin/dashboard'])
       }
-      console.log("done")
     })
   }
 

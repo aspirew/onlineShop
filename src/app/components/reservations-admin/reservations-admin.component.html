@@ -1,1 +1,54 @@
-<p>reservations-admin works!</p>
+<h1>Zarezerwowane wizyty</h1>
+
+<mat-spinner *ngIf="reservations.length <= 0 && beingLoaded"></mat-spinner>
+
+<div *ngIf="reservations.length <= 0 && !beingLoaded">
+  <h2>Brak rezerwacji w bazie danych</h2>
+</div>
+
+<div *ngFor="let r of reservations">
+
+  <div *ngIf="r[0]">
+
+  <h2>{{r[0].status}}</h2>
+
+  <table mat-table [dataSource]="r" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nazwa </th>
+      <td mat-cell *matCellDef="let res"> {{res.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let res"> {{res.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="date">
+      <th mat-header-cell *matHeaderCellDef> Data </th>
+      <td mat-cell *matCellDef="let res"> {{res.date}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="begin">
+      <th mat-header-cell *matHeaderCellDef> Godz. rozp. </th>
+      <td mat-cell *matCellDef="let res"> {{res.begin}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="finish">
+        <th mat-header-cell *matHeaderCellDef> Godz. zak. </th>
+        <td mat-cell *matCellDef="let res"> {{res.finish}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row
+    *matRowDef="let row; columns: displayedColumns;"
+    class="element-row"
+    [class.expanded]="selectedRows.has(row)"
+    (click)="select(row)"></tr>
+  </table>
+
+  </div>
+</div>
+
+<button mat-raised-button (click)="cancelRes()">Anuluj zaznaczone</button>
+<button mat-raised-button (click)="deleteRes()">Usuń zaznaczone</button>

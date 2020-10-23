@@ -1,0 +1,28 @@
+form mat-form-field{
+  margin: 5px;
+}
+
+form button {
+  float: right;
+}
+
+table {
+  width: 100%;
+  margin: 20px;
+}
+
+.mat-row {
+  height: auto;
+}
+
+.mat-cell {
+  padding: 8px 8px 8px 0;
+}
+
+.big{
+  width: 40%;
+}
+
+.small{
+  width: 18%;
+}

@@ -15,7 +15,7 @@ export class AdminGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.admin.isLoggedIn().pipe(map(res => {
-      if(res.status) {
+      if(!res.status) {
         this.router.navigate(['/admin'])
         return false
       } else {

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { reservationData} from '../interfaces';
 
-interface reservationResult{
+interface result{
   success: boolean,
   message: string
 }
@@ -23,7 +23,15 @@ export class ReservationsService {
   }
 
   makeReservation(book: reservationData){
-    return this.http.post<reservationResult>('/api/makeReservation', book)
+    return this.http.post<result>('/api/makeReservation', book)
+  }
+
+  cancelReservation(resId: string, status: string){
+    return this.http.post<result>('/api/cancelReservation', {resId, status})
+  }
+
+  deleteReservation(resId: string){
+    return this.http.post<result>('/api/deleteReservation', {resId})
   }
 
 }

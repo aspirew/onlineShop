@@ -19,6 +19,10 @@ import { DashboardComponent } from 'src/app/components/dashboard/dashboard.compo
 import { ProductsAdminComponent } from 'src/app/components/products-admin/products-admin.component'
 import { ReservationsAdminComponent } from 'src/app/components/reservations-admin/reservations-admin.component'
 import { OrdersAdminComponent } from 'src/app/components/orders-admin/orders-admin.component'
+import { AdminLoginGuard } from 'src/app/admin-login.guard'
+import { AdminUsersComponent } from 'src/app/components/admin-users/admin-users.component'
+import { OrderComponent } from 'src/app/components/order/order.component'
+import { AdminNewProductComponent } from 'src/app/components/admin-new-product/admin-new-product.component'
 
 
 export default [
@@ -69,7 +73,8 @@ export default [
     },
     {
       path: 'admin',
-      component: AdminLoginComponent
+      component: AdminLoginComponent,
+      canActivate: [AdminLoginGuard]
     },
     {
       path: 'admin/dashboard',
@@ -90,6 +95,23 @@ export default [
       path: 'admin/orders',
       component: OrdersAdminComponent,
       canActivate: [AdminGuard]
+    },
+    {
+      path: 'admin/users',
+      component: AdminUsersComponent,
+      canActivate: [AdminGuard]
+    },
+    {
+      path: 'products/search/:phrase',
+      component: ProductsComponent
+    },
+    {
+      path: 'admin/products/new',
+      component: AdminNewProductComponent
+    },
+    {
+      path: 'order/:id',
+      component: OrderComponent
     },
     {
         path: '404',

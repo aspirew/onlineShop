@@ -4,6 +4,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { CartService } from '../../services/cart.service';
+import { AdminService } from 'src/app/services/admin.service';
 
 
 @Component({
@@ -17,11 +18,15 @@ export class LoginComponent implements OnInit{
     public utils : UtilsService,
     private auth: AuthService,
     private router: Router,
-    private cart: CartService) { }
+    private cart: CartService,
+    private admin: AdminService) { }
 
-  beingLoaded = false
+  beingLoaded = true
 
-  ngOnInit(){
+  async ngOnInit(){
+    if((await this.admin.isLoggedIn().toPromise()).status)
+      this.router.navigate(['/admin/dashboard'])
+    else this.beingLoaded = false
   }
 
   loginUser(event){

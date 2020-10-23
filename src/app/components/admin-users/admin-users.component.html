@@ -1,0 +1,28 @@
+<form (ngSubmit)="searchButtonClick()">
+  <mat-form-field class="search">
+    <mat-label>Email użytkownika</mat-label>
+    <input matInput name="searchPhrase" [(ngModel)]="email">
+  </mat-form-field>
+  <button mat-icon-button type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+
+<mat-spinner *ngIf="beingLoaded"></mat-spinner>
+
+<div *ngIf="userNotFound">
+  <h1>Użytkownika nie znaleziono</h1>
+</div>
+
+<div *ngIf="usr">
+  <h2>Login: {{usr.username}}</h2>
+  <h2>Punkty: {{usr.points}}</h2>
+  <h2>Dane dostawy:</h2>
+    <h3>Imię: {{usr.deliveryDetails.name}}</h3>
+    <h3>Nazwisko: {{usr.deliveryDetails.surname}}</h3>
+    <h3>Ulica: {{usr.deliveryDetails.street}}</h3>
+    <h3>Numer domu: {{usr.deliveryDetails.houseNum}}</h3>
+    <h3>Numer mieszkania: {{usr.deliveryDetails.flatNum}}</h3>
+    <h3>Miasto: {{usr.deliveryDetails.city}}</h3>
+    <h3>Kod pocztowy: {{usr.deliveryDetails.zip}}</h3>
+</div>

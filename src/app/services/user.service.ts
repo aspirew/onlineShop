@@ -18,6 +18,10 @@ export class UserService {
     return this.http.get<userData>('/api/data')
   }
 
+  getDataByEmail(email) {
+    return this.http.post<userData>('/api/data', {email})
+  }
+
   setDeliveryData(delivery) {
     return this.http.post<status>('/api/setDeliveryData', delivery)
   }

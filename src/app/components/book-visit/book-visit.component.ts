@@ -45,12 +45,10 @@ export class BookVisitComponent implements OnInit {
         const day = date.getDay()
         return !this.constants.CLOSED_AT.includes(day) && new Date(date.setHours(this.constants.OPENED_UNTIL)) > new Date()
       }
-
     if(this.dateFilter(today))
       this.pickedDate = new FormControl(today)
     else
       this.pickedDate = this.nextValidDate(today)
-
     })
 
     this.fetchData.getAllServices().subscribe((services) => {
@@ -67,9 +65,7 @@ export class BookVisitComponent implements OnInit {
 
   }
 
-  async ngOnInit() {
-
-  }
+  ngOnInit() {}
 
   isActive(hour) {
       var numOfUnavailableDatesInARow = this.service?.duration / 30
@@ -160,9 +156,10 @@ export class BookVisitComponent implements OnInit {
       email = (await this.user.getData().toPromise()).email
 
     this.reservationService.makeReservation({
+      _id: null,
       email: email,
       service: this.service._id,
-      status: (new status).confirmed,
+      status: status.confirmed,
       date: this.parseDate,
       beginHour: this.hour,
       finishHour: null}).subscribe(res => {

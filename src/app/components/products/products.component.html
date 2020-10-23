@@ -1,17 +1,25 @@
 
-<mat-spinner *ngIf="!this.tiles"></mat-spinner>
+<mat-spinner *ngIf="!tiles && !noResults"></mat-spinner>
 
-<div *ngIf="this.tiles">
-<form>
+<div *ngIf="tiles || noResults">
+<form (ngSubmit)="searchButtonClick()">
   <mat-form-field class="search">
-    <mat-label >Szukaj produktu</mat-label>
-    <input matInput>
+    <mat-label>Szukaj produktu</mat-label>
+    <input matInput name="searchPhrase" [(ngModel)]="searchPhrase">
   </mat-form-field>
   <button mat-icon-button type="submit">
     <mat-icon>search</mat-icon>
   </button>
 </form>
+</div>
 
+<div *ngIf="noResults">
+
+<h1>Szukany produkt nie został znaleziony :(</h1>
+
+</div>
+
+<div *ngIf="tiles">
 <mat-grid-list [cols]="breakpoint" rowHeight="200px" (window:resize)="onResize($event)" gutterSize="10px">
     <mat-grid-tile
     *ngFor="let tile of tiles">

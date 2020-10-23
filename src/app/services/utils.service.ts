@@ -18,6 +18,7 @@ export class UtilsService {
   }
 
   parseDate(date: Date){
+    date = new Date(date)
     let weekDays = ['Niedziela', 'Poniedziałek', 'Wtorek', 'Środa', 'Czwartek', 'Piątek', 'Sobota']
 
     let months = ['Stycznia', 'Lutego', 'Marca', 'Kwietnia', 'Maja',

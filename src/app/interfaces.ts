@@ -39,6 +39,7 @@ export interface serviceData {
 }
 
 export interface reservationData {
+  _id: string,
   email: string,
   service: Types.ObjectId,
   status: string,
@@ -62,3 +63,14 @@ export interface constants {
   CLOSED_AT: Array<number>,
   OPENED_UNTIL: number
 }
+
+export interface order {
+  email: String,
+  products: Array<cartData>,
+  value: Number,
+  deliveryDetails: deliveryData,
+  status: String,
+  date: Date
+}
+
+

@@ -1,8 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
-import { cartData, cartInterface } from '../interfaces';
+import { cartData, cartInterface, order } from '../interfaces';
 import { FetchServiceService } from './fetch-service.service';
 import { UserService } from './user.service';
+import { HttpClient } from '@angular/common/http';
+
+interface status {
+  success: boolean,
+  message: string,
+  id: string
+}
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +20,7 @@ export class CartService {
   private emitChangeSource = new Subject<any>();
   changeEmitted$ = this.emitChangeSource.asObservable();
 
-  constructor(private fetch: FetchServiceService, private user: UserService) { }
+  constructor(private fetch: FetchServiceService, private user: UserService, private http: HttpClient) { }
 
   async addItemToCart(itemID, numOfItems: number){
 
@@ -105,11 +112,12 @@ export class CartService {
 
   async loadUserCartData(){
 
-    let userCart : Array<cartData> = (await this.user.getData().toPromise()).cart
-    for (const product of userCart){
-      await this.addItemToCart(product.productID, product.quantity)
+    let userCart = (await this.user.getData().toPromise()).cart
+    if(userCart.length > 0){
+      for (const product of userCart){
+        await this.addItemToCart(product.productID, product.quantity)
+      }
     }
-
   }
 
   clearLocalCart(){
@@ -123,8 +131,8 @@ export class CartService {
   }
 
   getNumOfProductsInCart(){
-    let cart = localStorage.getItem("cart")
-    if(cart) return JSON.parse(cart).length
+    let cart = JSON.parse(localStorage.getItem("cart"))
+    if(cart) return cart.length
     else return 0
   }
 
@@ -136,6 +144,11 @@ export class CartService {
     else{
       return cart.find(p => p.productID == cartItem)?.quantity || 0
     }
+  }
+
+  createNewOrder(cart: order){
+
+    return this.http.post<status>('/api/order/create', cart)
   }
 
 }

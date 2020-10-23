@@ -1,6 +1,18 @@
 export class status {
-    confirmed: "zatwierdzone"
-    awaiting: "oczekujące"
-    closed: "zakończone"
-    cancelled: "anulowane"
+
+    static get confirmed() {
+      return "zatwierdzone"
+    }
+
+    static get awaiting() {
+      return "oczekujące"
+    }
+
+    static get closed() {
+      return "zakończone"
+    }
+
+    static get cancelled() {
+      return "anulowane"
+    }
 }

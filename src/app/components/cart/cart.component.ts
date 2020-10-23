@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { cartInterface, userData } from '../../interfaces'
+import { Component, OnDestroy } from '@angular/core';
+import { cartInterface, order, cartData } from '../../interfaces'
 import { FetchServiceService } from '../../services/fetch-service.service';
 import { Observable } from 'rxjs';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { map, shareReplay } from 'rxjs/operators';
 import { CartService } from '../../services/cart.service';
 import { UserService } from '../../services/user.service';
+import { Router } from '@angular/router';
 var mongoose = require('mongoose');
 
 @Component({
@@ -30,7 +31,8 @@ export class CartComponent implements OnDestroy {
   constructor(private cartService: CartService,
     private fetch: FetchServiceService,
     private breakpointObserver: BreakpointObserver,
-    private user: UserService) {
+    private user: UserService,
+    private router: Router) {
     let tmpCart = this.cartService.getProductsInCart() || []
     let resolved = 0
     if(tmpCart.length > 0){
@@ -50,7 +52,7 @@ export class CartComponent implements OnDestroy {
   }
 
   async ngOnDestroy() {
-    const loggedIn = await (await this.user.isLoggedIn().toPromise()).status
+    const loggedIn = (await this.user.isLoggedIn().toPromise()).status
     await this.cartService.saveNewCart(this.cart)
     if(loggedIn != (await this.user.isLoggedIn().toPromise()).status)
       this.cartService.clearLocalCart()
@@ -79,6 +81,36 @@ export class CartComponent implements OnDestroy {
 
   calculateSummedPrice(): number{
     return Math.round((this.cart.reduce((acc, p) => acc + p.quantity * p.product.price, 0) + Number.EPSILON) * 100) / 100
+  }
+
+  order(){
+    const cartData: Array<cartData> = []
+    this.cart.forEach(p => {
+      cartData.push({productID: p.product._id, quantity: p.quantity})
+    })
+
+    console.log(cartData)
+
+    const orderData: order = {
+      email: null,
+      deliveryDetails: null,
+      status: null,
+      products: cartData,
+      value: this.summedPrice,
+      date: new Date()
+    }
+    this.cartService.createNewOrder(orderData).subscribe(res => {
+      console.log(res)
+      if(res.success){
+        this.cartService.clearLocalCart()
+        this.cart = []
+        this.router.navigate(['/order', res.id])
+      }
+      else{
+        alert("Operacja nie powiodła się! " + res.message)
+      }
+    })
+
   }
 
 }

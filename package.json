@@ -11,6 +11,7 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-material-components/file-input": "^4.0.1",
     "@angular/animations": "~9.1.12",
     "@angular/cdk": "^9.2.4",
     "@angular/common": "~9.1.12",
@@ -22,7 +23,9 @@
     "@angular/platform-browser-dynamic": "~9.1.12",
     "@angular/router": "~9.1.12",
     "@types/mongoose": "^5.7.36",
+    "angular-material-fileupload": "^3.0.1",
     "mongoose": "^5.9.28",
+    "ngx-material-file-input": "^2.1.1",
     "rxjs": "~6.5.4",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"

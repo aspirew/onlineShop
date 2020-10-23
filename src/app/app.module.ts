@@ -15,6 +15,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { ProductsComponent } from './components/products/products.component';
 import { BookVisitComponent } from './components/book-visit/book-visit.component';
+import { MaterialFileInputModule } from 'ngx-material-file-input';
 
 import paths from '../routes/paths';
 import { ContactComponent } from './components/contact/contact.component';
@@ -41,7 +42,11 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ProductsAdminComponent } from './components/products-admin/products-admin.component';
 import { ReservationsAdminComponent } from './components/reservations-admin/reservations-admin.component';
 import { OrdersAdminComponent } from './components/orders-admin/orders-admin.component';
-
+import { AdminUsersComponent } from './components/admin-users/admin-users.component';
+import { ProductService } from './services/product.service';
+import { OrderComponent } from './components/order/order.component';
+import { NewProductComponent } from './new-product/new-product.component';
+import { AdminNewProductComponent } from './components/admin-new-product/admin-new-product.component';
 
 @NgModule({
   declarations: [
@@ -63,7 +68,11 @@ import { OrdersAdminComponent } from './components/orders-admin/orders-admin.com
     DashboardComponent,
     ProductsAdminComponent,
     ReservationsAdminComponent,
-    OrdersAdminComponent
+    OrdersAdminComponent,
+    AdminUsersComponent,
+    OrderComponent,
+    NewProductComponent,
+    AdminNewProductComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +92,8 @@ import { OrdersAdminComponent } from './components/orders-admin/orders-admin.com
     BrowserAnimationsModule,
     FormsModule,
     MatNativeDateModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialFileInputModule
   ],
   providers: [UtilsService, AuthService, AuthGuard, AdminGuard],
   bootstrap: [AppComponent]

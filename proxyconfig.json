@@ -1,6 +1,6 @@
 {
     "/api": {
-        "target": "https://localhost:1234",
+        "target": "http://rav215.nold.ct8.pl",
         "secure": false,
         "changeOrigin": true
     }

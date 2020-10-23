@@ -3,6 +3,9 @@ import { FetchServiceService } from '../../services/fetch-service.service';
 import { CartService } from '../../services/cart.service';
 import { UserService } from '../../services/user.service';
 
+import { productData } from '../../interfaces'
+import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -12,27 +15,38 @@ export class ProductsComponent implements OnInit {
 
   breakpoint = null
   allTiles = null
-  tiles = null
+  tiles : Array<productData> = []
+  allLoadedResults : Array<productData> = []
   page = 1
   allPages = 1
   productsPerPage = 20
+  searchPhrase = ""
+  noResults = false
   constructor(
     private fetch: FetchServiceService,
     private cartService: CartService,
-    private user: UserService
+    private route: ActivatedRoute,
+    private router: Router
     ) { }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.breakpoint = Math.floor(window.innerWidth / 400)
+    this.route.params.subscribe(params => {
 
-    this.fetch.getNumOfProducts().subscribe(num => {
-      this.allPages = Math.floor(num / this.productsPerPage)
-      if(this.productsPerPage % num != 0) this.allPages++
+    if(Object.keys(params).length != 0){
+      this.searchPhrase = params.phrase
+      this.search()
+    }
+    else{
+      this.fetch.getNumOfProducts().subscribe(num => {
+        this.allPages = Math.floor(num / this.productsPerPage)
+        if(this.productsPerPage % num != 0) this.allPages++
 
-    })
+      })
 
-    this.setPage(this.page)
-
+      this.setPage(this.page)
+    }
+  })
   }
 
   onResize(event){
@@ -58,9 +72,14 @@ export class ProductsComponent implements OnInit {
 
   setPage(page){
     this.tiles = null
-    this.fetch.getSomeProducts(page, this.productsPerPage).subscribe(data => {
-      this.tiles = data.filter(o => o.quantity > 0)
-    })
+    if(this.allLoadedResults.length > 0){
+      this.tiles = this.allLoadedResults.slice(this.productsPerPage * (page - 1), this.productsPerPage * page)
+    }
+    else{
+      this.fetch.getSomeProducts(page, this.productsPerPage).subscribe(data => {
+        this.tiles = data.filter(o => o.quantity > 0)
+      })
+    }
   }
 
   async addToCart(itemID){
@@ -72,5 +91,21 @@ export class ProductsComponent implements OnInit {
     return name.replace(" ", "-")
   }
 
+  searchButtonClick(){
+    if(!this.searchPhrase) alert("wpisz cos xD")
+    else this.router.navigate(['/products/search', this.searchPhrase])
+  }
 
-}
+  async search(){
+    this.tiles = null
+    this.noResults = false
+    this.fetch.searchProducts(this.searchPhrase).subscribe(res => {
+      this.page = 1
+      this.allPages = Math.floor(res.length / this.productsPerPage)
+      if(res.length % this.productsPerPage != 0) this.allPages++
+      this.allLoadedResults = res
+      if(this.allLoadedResults.length > 0) this.setPage(this.page)
+      else this.noResults = true
+    })
+    }
+  }

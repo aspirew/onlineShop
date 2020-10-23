@@ -1,1 +1,40 @@
-<p>orders-admin works!</p>
+<table *ngIf="loaded" mat-table [dataSource]="orders" matSort class="mat-elevation-z8">
+
+  <ng-container matColumnDef="email">
+    <th mat-header-cell *matHeaderCellDef> Email </th>
+    <td mat-cell *matCellDef="let res"> {{res.email}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="value">
+    <th mat-header-cell *matHeaderCellDef> Wartość </th>
+    <td mat-cell *matCellDef="let res"> {{res.value}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="date">
+    <th mat-header-cell *matHeaderCellDef> Data </th>
+    <td mat-cell *matCellDef="let res"> {{parseDate(res.date)}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="status">
+    <th mat-header-cell *matHeaderCellDef> Status </th>
+    <td mat-cell *matCellDef="let res"> {{res.status}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row
+  *matRowDef="let row; columns: displayedColumns;"
+  class="element-row"
+  [class.expanded]="selectedRow == row"
+  (click)="select(row)"></tr>
+</table>
+
+<div *ngIf="selectedRow">
+  <h1>Dane dostawy: </h1>
+  <h2>Imię: {{selectedRow.deliveryDetails.name}}</h2>
+  <h2>Nazwisko: {{selectedRow.deliveryDetails.surname}}</h2>
+  <h2>Ulica: {{selectedRow.deliveryDetails.street}}</h2>
+  <h2>Numer domu: {{selectedRow.deliveryDetails.houseNum}}</h2>
+  <h2>Numer mieszkania: {{selectedRow.deliveryDetails.flatNum}}</h2>
+  <h2>Miasto: {{selectedRow.deliveryDetails.city}}</h2>
+  <h2>Kod pocztowy: {{selectedRow.deliveryDetails.zip}}</h2>
+</div>

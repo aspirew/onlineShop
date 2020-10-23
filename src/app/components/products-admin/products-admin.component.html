@@ -1,1 +1,69 @@
-<p>products-admin works!</p>
+<h1>Zarządzanie produktami</h1>
+
+<mat-spinner *ngIf="beingLoad"></mat-spinner>
+
+<div [hidden]="beingLoad">
+
+<form (ngSubmit)="searchButtonClick()">
+  <mat-form-field class="search">
+    <mat-label>Szukaj produktu</mat-label>
+    <input matInput name="searchPhrase" [(ngModel)]="searchPhrase">
+  </mat-form-field>
+  <button mat-icon-button type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+
+<table mat-table [dataSource]="products" matSort class="mat-elevation-z8">
+
+  <ng-container matColumnDef="name">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nazwa </th>
+    <td mat-cell *matCellDef="let res"> {{res.name}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="price">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Cena </th>
+    <td mat-cell *matCellDef="let res"> {{res.price}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="quantity">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Ilość </th>
+    <td mat-cell *matCellDef="let res"> {{res.quantity}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row
+  *matRowDef="let row; columns: displayedColumns;"
+  class="element-row"
+  [class.expanded]="selectedRow == row"
+  (click)="select(row)"></tr>
+</table>
+
+<div class="editPanel">
+
+<form style="float: left;" (ngSubmit)="edit()">
+  <div style="text-align: center; width:25vw">
+    <mat-form-field style="width:100%">
+      <mat-label>Nazwa</mat-label>
+      <input matInput [(ngModel)]="name" name="name">
+    </mat-form-field><br>
+    <mat-form-field style="width:45%; margin-right: 10px;">
+        <mat-label>Cena</mat-label>
+        <input matInput [(ngModel)]="price" name="price">
+    </mat-form-field>
+    <mat-form-field style="width:45%; margin-left: 10px;">
+      <mat-label>Ilość</mat-label>
+      <input matInput [(ngModel)]="quantity" name="quantity">
+  </mat-form-field><br>
+    <button mat-button type="submit">
+        Zatwierdź
+    </button>
+  </div>
+
+</form>
+<button style="float: right;" mat-raised-button (click)="loadMore()">{{optionButtonLabel}}</button>
+<div style="clear: both;"></div>
+
+</div>
+
+</div>

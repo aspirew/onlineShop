@@ -35,11 +35,15 @@ export class FetchServiceService {
   }
 
   getNumOfProducts(){
-    return this.http.get<number>('/api/products/quantity')
+    return this.http.get<number>('/api/productsQuantity')
   }
 
   getConstants(){
     return this.http.get<constants>('/api/constants')
+  }
+
+  searchProducts(searchPhrase: string){
+    return this.http.post<Array<productData>>('/api/productsSearch', {searchPhrase})
   }
 
 }

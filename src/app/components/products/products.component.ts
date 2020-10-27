@@ -16,7 +16,6 @@ export class ProductsComponent implements OnInit {
   breakpoint = null
   allTiles = null
   tiles : Array<productData> = []
-  allLoadedResults : Array<productData> = []
   page = 1
   allPages = 1
   productsPerPage = 20
@@ -61,7 +60,7 @@ export class ProductsComponent implements OnInit {
   }
 
   turnToDesiredPage(input){
-    const val = input.target.value
+    const val = parseInt(input.target.value)
     if(val > 0 && val <= this.allPages) {
       this.page = val
       console.log(this.page)
@@ -72,14 +71,9 @@ export class ProductsComponent implements OnInit {
 
   setPage(page){
     this.tiles = null
-    if(this.allLoadedResults.length > 0){
-      this.tiles = this.allLoadedResults.slice(this.productsPerPage * (page - 1), this.productsPerPage * page)
-    }
-    else{
       this.fetch.getSomeProducts(page, this.productsPerPage).subscribe(data => {
-        this.tiles = data.filter(o => o.quantity > 0)
+        this.tiles = data
       })
-    }
   }
 
   async addToCart(itemID){
@@ -103,8 +97,7 @@ export class ProductsComponent implements OnInit {
       this.page = 1
       this.allPages = Math.floor(res.length / this.productsPerPage)
       if(res.length % this.productsPerPage != 0) this.allPages++
-      this.allLoadedResults = res
-      if(this.allLoadedResults.length > 0) this.setPage(this.page)
+      if(res.length > 0) this.setPage(this.page)
       else this.noResults = true
     })
     }

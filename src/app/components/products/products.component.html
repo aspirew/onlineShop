@@ -2,7 +2,8 @@
 class="prompt" 
 *ngIf="promptedProduct" 
 [product]="promptedProduct"
-(closeEvent)="closePrompt()">
+(closeEvent)="closePrompt()"
+[@inOutAnimation]>
 </app-cart-prompt>
 
 <mat-spinner *ngIf="!tiles && !noResults"></mat-spinner>

@@ -4,11 +4,35 @@ import { CartService } from '../../services/cart.service';
 
 import { productData } from '../../interfaces'
 import { ActivatedRoute, Router } from '@angular/router';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation', 
+      [
+        transition(
+          ':enter', 
+          [
+            style({ opacity: 0 }),
+            animate('500ms ease-out', 
+                    style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave', 
+          [
+            style({ opacity: 1 }),
+            animate('500ms ease-in', 
+                    style({  opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductsComponent implements OnInit {
 

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchServiceService } from '../../services/fetch-service.service';
 import { CartService } from '../../services/cart.service';
-import { UserService } from '../../services/user.service';
 
 import { productData } from '../../interfaces'
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +20,9 @@ export class ProductsComponent implements OnInit {
   productsPerPage = 20
   searchPhrase = ""
   noResults = false
+
+  promptedProduct : productData = null
+
   constructor(
     private fetch: FetchServiceService,
     private cartService: CartService,
@@ -76,9 +78,13 @@ export class ProductsComponent implements OnInit {
       })
   }
 
-  async addToCart(itemID){
-    await this.cartService.addItemToCart(itemID, 1)
-    await this.cartService.updateUserCart()
+  async addToCart(tile: productData){
+    if(!this.promptedProduct){
+      const isAvailable = await this.cartService.addItemToCart(tile._id, 1)
+      await this.cartService.updateUserCart()
+      if(isAvailable)
+        this.promptedProduct = tile
+    }
   }
 
   getDecodedUri(name: String){
@@ -101,4 +107,8 @@ export class ProductsComponent implements OnInit {
       else this.noResults = true
     })
     }
+
+  closePrompt(){
+    this.promptedProduct = null
+  }
   }

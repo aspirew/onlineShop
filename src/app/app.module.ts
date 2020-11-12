@@ -47,6 +47,7 @@ import { ProductService } from './services/product.service';
 import { OrderComponent } from './components/order/order.component';
 import { NewProductComponent } from './new-product/new-product.component';
 import { AdminNewProductComponent } from './components/admin-new-product/admin-new-product.component';
+import { CartPromptComponent } from './components/cart-prompt/cart-prompt.component';
 
 @NgModule({
   declarations: [
@@ -72,7 +73,8 @@ import { AdminNewProductComponent } from './components/admin-new-product/admin-n
     AdminUsersComponent,
     OrderComponent,
     NewProductComponent,
-    AdminNewProductComponent
+    AdminNewProductComponent,
+    CartPromptComponent
   ],
   imports: [
     BrowserModule,

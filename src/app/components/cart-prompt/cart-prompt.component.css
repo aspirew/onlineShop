@@ -1,0 +1,21 @@
+.body{
+    padding: 5px;
+    border: 2px solid black;
+}
+
+p{
+    font-size: large;
+}
+
+.exit{
+    text-align: right;
+    width: auto;
+}
+
+.xButton{
+    cursor: pointer;
+}
+
+.btn{
+    text-align: right;
+}

@@ -112,7 +112,7 @@ export class ProductsComponent implements OnInit {
   }
 
   getDecodedUri(name: String){
-    return name.replace(" ", "-")
+    return name.split(" ").join("-")
   }
 
   searchButtonClick(){

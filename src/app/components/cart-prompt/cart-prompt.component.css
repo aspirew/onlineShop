@@ -16,6 +16,22 @@ p{
     cursor: pointer;
 }
 
+.xButton:hover{
+    color: gray;
+}
+
 .btn{
     text-align: right;
+}
+
+td{
+    padding: 5px;
+}
+
+a{
+    color: black;
+}
+
+a:hover{
+    color: gray;
 }

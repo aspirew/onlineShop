@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { productData } from 'src/app/interfaces';
 
 @Component({
@@ -11,13 +12,17 @@ export class CartPromptComponent implements OnInit {
   @Input() product: productData
   @Output() closeEvent = new EventEmitter();
 
-  constructor() { }
+  constructor(public router: Router) { }
 
   ngOnInit(): void {
   }
 
   exitPrompt(){
     this.closeEvent.emit()
+  }
+
+  getDecodedUri(name: String){
+    return name.split(" ").join("-")
   }
 
 }

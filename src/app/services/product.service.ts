@@ -19,4 +19,8 @@ export class ProductService {
     console.log(id)
     return this.http.post<status>(`/api/product/${id}/edit`, editData)
   }
+
+  deleteProduct(id){
+    return this.http.get<status>(`/api/product/${id}/delete`)
+  }
 }

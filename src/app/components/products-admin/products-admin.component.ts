@@ -96,8 +96,17 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
     else{
       this.reload()
     }
+  }
 
-
+  deleteElem(){
+    if(this.selectedRow)
+      this.prodService.deleteProduct(this.selectedRow._id).subscribe(res => {
+        if(!res.success)
+          alert(res.message)
+        this.reload()
+      })
+    else
+      alert("zaznacz produkt do usunięcia")
   }
 
   reload(){

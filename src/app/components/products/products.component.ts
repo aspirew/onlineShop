@@ -14,8 +14,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class ProductsComponent implements OnInit {
 
   breakpoint = null
-  allTiles = null
   tiles : Array<productData> = []
+  allLoadedResults : Array<productData> = []
   page = 1
   allPages = 1
   productsPerPage = 20
@@ -71,9 +71,14 @@ export class ProductsComponent implements OnInit {
 
   setPage(page){
     this.tiles = null
+    if(this.allLoadedResults.length > 0){
+      this.tiles = this.allLoadedResults.slice(this.productsPerPage * (page - 1), this.productsPerPage * page)
+    }
+    else{
       this.fetch.getSomeProducts(page, this.productsPerPage).subscribe(data => {
-        this.tiles = data
+        this.tiles = data.filter(o => o.quantity > 0)
       })
+    }
   }
 
   async addToCart(itemID){
@@ -93,11 +98,15 @@ export class ProductsComponent implements OnInit {
   async search(){
     this.tiles = null
     this.noResults = false
+    console.log(this.searchPhrase)
     this.fetch.searchProducts(this.searchPhrase).subscribe(res => {
+      console.log(res)
       this.page = 1
+      this.tiles = res
       this.allPages = Math.floor(res.length / this.productsPerPage)
       if(res.length % this.productsPerPage != 0) this.allPages++
-      if(res.length > 0) this.setPage(this.page)
+      this.allLoadedResults = res
+      if(this.allLoadedResults.length > 0) this.setPage(this.page)
       else this.noResults = true
     })
     }

@@ -1,0 +1,37 @@
+.body{
+    padding: 5px;
+    border: 2px solid black;
+}
+
+p{
+    font-size: large;
+}
+
+.exit{
+    text-align: right;
+    width: auto;
+}
+
+.xButton{
+    cursor: pointer;
+}
+
+.xButton:hover{
+    color: gray;
+}
+
+.btn{
+    text-align: right;
+}
+
+td{
+    padding: 5px;
+}
+
+a{
+    color: black;
+}
+
+a:hover{
+    color: gray;
+}

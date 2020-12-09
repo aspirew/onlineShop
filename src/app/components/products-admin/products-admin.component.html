@@ -47,6 +47,18 @@
       <mat-label>Nazwa</mat-label>
       <input matInput [(ngModel)]="name" name="name">
     </mat-form-field><br>
+    <mat-form-field style="width:100%">
+      <mat-label>Tagi</mat-label>
+      <input matInput [(ngModel)]="tags" name="tags">
+    </mat-form-field><br>
+    <mat-form-field style="width:100%">
+      <mat-label>Opis</mat-label>
+      <textarea matInput cdkTextareaAutosize
+                cdkAutosizeMinRows="2"
+                cdkAutosizeMaxRows="5"
+                name="description"
+                [(ngModel)]="description" name="description"></textarea>
+    </mat-form-field><br>
     <mat-form-field style="width:45%; margin-right: 10px;">
         <mat-label>Cena</mat-label>
         <input matInput [(ngModel)]="price" name="price">
@@ -54,7 +66,7 @@
     <mat-form-field style="width:45%; margin-left: 10px;">
       <mat-label>Ilość</mat-label>
       <input matInput [(ngModel)]="quantity" name="quantity">
-  </mat-form-field><br>
+  </mat-form-field>
   <img src='/api/images/{{image}}' height = "150px"><br>
   <mat-form-field>
     <ngx-mat-file-input placeholder="Nowe zdjęcie" [formControl]="fileControl" [disabled]="disabled" [accept]="accept" color="primary">

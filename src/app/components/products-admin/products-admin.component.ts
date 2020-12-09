@@ -34,6 +34,8 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
   price = 0.0
   quantity = 0
   image = ""
+  description = ""
+  tags = ""
 
   color: ThemePalette = 'primary';
   disabled: boolean = false;
@@ -78,6 +80,8 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
     this.price = row.price
     this.quantity = row.quantity
     this.image = row.image_url
+    this.description = row.description
+    this.tags = row.tags.join(" ")
   }
 
   async edit(){
@@ -108,7 +112,9 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
         name: this.name,
         price: this.price,
         quantity: this.quantity,
-        image: this.image
+        image: this.image,
+        description: this.description,
+        tags: this.tags.split(" ")
       }
       this.prodService.editProduct(this.selectedRow._id, editData).subscribe(res => {
         if(res.success) {

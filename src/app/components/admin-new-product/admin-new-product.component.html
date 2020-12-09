@@ -6,11 +6,11 @@
     </mat-form-field><br>
     <mat-form-field class="small">
         <mat-label>Ilość</mat-label>
-        <input matInput type="number" name="quantity" [(ngModel)]="surname">
+        <input matInput type="number" name="quantity" [(ngModel)]="quantity">
       </mat-form-field>
     <mat-form-field class="small">
         <mat-label>Cena</mat-label>
-        <input matInput type="number" name="price" [(ngModel)]="street">
+        <input matInput type="number" name="price" [(ngModel)]="price">
     </mat-form-field><br>
     <mat-form-field appearance="fill">
       <mat-label>Tagi</mat-label>
@@ -26,15 +26,20 @@
     </mat-form-field><br>
 
       <mat-form-field>
-        <ngx-mat-file-input [formControl]="fileControl" [disabled]="disabled" [accept]="accept" color="primary">
-          <mat-icon ngxMatFileInputIcon>folder</mat-icon>
+        <ngx-mat-file-input placeholder="Udostępnij zdjęcie" [formControl]="fileControl" [disabled]="disabled" [accept]="accept" color="primary">
+          <mat-icon matSuffix>image</mat-icon>
         </ngx-mat-file-input>
       </mat-form-field>
+      <br>
 
-      <div class="title">Selected file:</div>
-      <div class="value">
-        <img [src]="file?.files">
-      </div>
+      <mat-form-field>
+        <mat-label>Opis</mat-label>
+        <textarea matInput cdkTextareaAutosize
+                  cdkAutosizeMinRows="2"
+                  cdkAutosizeMaxRows="5"
+                  name="description"
+                  [(ngModel)]="description"></textarea>
+      </mat-form-field>
 
     </div>
 

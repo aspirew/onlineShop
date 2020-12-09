@@ -24,7 +24,7 @@
     <mat-grid-tile
     *ngFor="let tile of tiles">
     <a [routerLink]="['/product', getDecodedUri(tile.name), tile._id]">
-      <img src='{{tile.image_url}}'>
+      <img src='/api/images/{{tile.image_url}}'>
     </a>
     <mat-grid-tile-footer>
         <span><a [routerLink]="['/product', getDecodedUri(tile.name), tile._id]">{{tile.name}}</a></span>

@@ -43,7 +43,6 @@ import { ProductsAdminComponent } from './components/products-admin/products-adm
 import { ReservationsAdminComponent } from './components/reservations-admin/reservations-admin.component';
 import { OrdersAdminComponent } from './components/orders-admin/orders-admin.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
-import { ProductService } from './services/product.service';
 import { OrderComponent } from './components/order/order.component';
 import { NewProductComponent } from './new-product/new-product.component';
 import { AdminNewProductComponent } from './components/admin-new-product/admin-new-product.component';

@@ -1,15 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { FetchServiceService } from '../../services/fetch-service.service';
 import { CartService } from '../../services/cart.service';
-import { UserService } from '../../services/user.service';
 
 import { productData } from '../../interfaces'
 import { ActivatedRoute, Router } from '@angular/router';
+import { trigger, state, style, animate, transition } from '@angular/animations';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.css']
+  styleUrls: ['./products.component.css'],
+  animations: [
+    trigger(
+      'inOutAnimation', 
+      [
+        transition(
+          ':enter', 
+          [
+            style({ opacity: 0 }),
+            animate('500ms ease-out', 
+                    style({ opacity: 1 }))
+          ]
+        ),
+        transition(
+          ':leave', 
+          [
+            style({ opacity: 1 }),
+            animate('500ms ease-in', 
+                    style({  opacity: 0 }))
+          ]
+        )
+      ]
+    )
+  ]
 })
 export class ProductsComponent implements OnInit {
 
@@ -21,6 +44,9 @@ export class ProductsComponent implements OnInit {
   productsPerPage = 20
   searchPhrase = ""
   noResults = false
+
+  promptedProduct : productData = null
+
   constructor(
     private fetch: FetchServiceService,
     private cartService: CartService,
@@ -81,13 +107,17 @@ export class ProductsComponent implements OnInit {
     }
   }
 
-  async addToCart(itemID){
-    await this.cartService.addItemToCart(itemID, 1)
-    await this.cartService.updateUserCart()
+  async addToCart(tile: productData){
+    if(!this.promptedProduct){
+      const isAvailable = await this.cartService.addItemToCart(tile._id, 1)
+      await this.cartService.updateUserCart()
+      if(isAvailable)
+        this.promptedProduct = tile
+    }
   }
 
   getDecodedUri(name: String){
-    return name.replace(" ", "-")
+    return name.split(" ").join("-")
   }
 
   searchButtonClick(){
@@ -110,4 +140,8 @@ export class ProductsComponent implements OnInit {
       else this.noResults = true
     })
     }
+
+  closePrompt(){
+    this.promptedProduct = null
+  }
   }

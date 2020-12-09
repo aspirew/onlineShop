@@ -60,3 +60,14 @@ input::-webkit-inner-spin-button {
     text-align: left;
     width: 40vw;
 }
+
+.prompt{
+    z-index: 99;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 400px;
+    margin-top: -150px;
+    margin-left: -200px;
+    background-color: lightgreen;
+}

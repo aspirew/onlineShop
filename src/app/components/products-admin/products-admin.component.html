@@ -55,6 +55,13 @@
       <mat-label>Ilość</mat-label>
       <input matInput [(ngModel)]="quantity" name="quantity">
   </mat-form-field><br>
+  <img src='/api/images/{{image}}' height = "150px"><br>
+  <mat-form-field>
+    <ngx-mat-file-input placeholder="Nowe zdjęcie" [formControl]="fileControl" [disabled]="disabled" [accept]="accept" color="primary">
+      <mat-icon matSuffix>image</mat-icon>
+    </ngx-mat-file-input>
+  </mat-form-field>
+  <br>
     <button mat-button type="submit">
         Zatwierdź
     </button>

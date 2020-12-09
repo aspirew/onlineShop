@@ -10,7 +10,7 @@
 
         <div class="product"
         *ngFor="let cartElement of cart">
-            <div class="image" *ngIf="!(isHandset$ | async)"><img src="{{cartElement.product.image_url}}"></div>
+            <div class="image" *ngIf="!(isHandset$ | async)"><img src="/api/images/{{cartElement.product.image_url}}" height="150px" width="150px"></div>
             <div class="detailsContainer">
                 <table>
                     <tr><td>

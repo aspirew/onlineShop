@@ -95,6 +95,7 @@ export class OrderComponent implements OnInit {
 
   makeOrder(){
     const orderData = {
+      _id: null,
       email: this.email,
       products: null,
       value: null,

@@ -29,12 +29,12 @@ export class RegisterComponent implements OnInit {
 
     if(errors.length === 0){
       this.auth.registerUser(username, email, password).subscribe(data => {
-        console.log(data)
         if(data.success){
           this.router.navigate(['/'])
         }
       })
     }
+    else alert(errors)
 
     console.log(username, email, password)
   }

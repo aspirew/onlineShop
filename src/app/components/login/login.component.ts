@@ -44,6 +44,7 @@ export class LoginComponent implements OnInit{
         this.router.navigate(['/'])
       } else {
         window.alert(data.message)
+        this.beingLoaded = false
       }
     })
 

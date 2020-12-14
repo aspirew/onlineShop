@@ -3,6 +3,8 @@ import { ThemePalette } from '@angular/material/core';
 import { FormControl, Validators } from '@angular/forms';
 import { AcceptValidator, MaxSizeValidator } from '@angular-material-components/file-input';
 import { FileInput } from 'ngx-material-file-input';
+import { ProductService } from 'src/app/services/product.service';
+import { productData } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-admin-new-product',
@@ -13,10 +15,11 @@ export class AdminNewProductComponent implements OnInit {
 
   beingLoaded = true
   name = ""
-  surname = ""
-  street = ""
+  quantity = ""
+  price = ""
   tags = new FormControl([])
   newTags = ""
+  description = ""
 
   availableTags= ["jedne", "dwa", "trzy"]
 
@@ -29,7 +32,7 @@ export class AdminNewProductComponent implements OnInit {
    public file: FileInput
    maxSize= 16;
 
-   constructor() {
+   constructor(private productsService: ProductService) {
      this.fileControl = new FormControl(this.file, [
        Validators.required,
        MaxSizeValidator(this.maxSize * 1024)
@@ -52,5 +55,25 @@ export class AdminNewProductComponent implements OnInit {
 
    saveProduct(){
     console.log(this.file.files)
+    const file =this.file.files[0]
+
+    const formData = new FormData()
+    formData.append('file', file)
+    const tags : Array<string> = this.tags.value
+
+    const productData = {
+      name: this.name,
+      price: this.price,
+      description: this.description,
+      quantity: this.quantity,
+      tags: tags.concat(this.newTags.split(' ')),
+    }
+
+    this.productsService.uploadProduct(productData, formData).then(
+      res => {
+        console.log(res)
+      }
+    )
+
    }
  }

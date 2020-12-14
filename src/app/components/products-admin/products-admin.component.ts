@@ -4,6 +4,12 @@ import { productData } from 'src/app/interfaces';
 import { ProductService } from 'src/app/services/product.service';
 import {MatSort} from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { HttpClient } from '@angular/common/http';
+import { ImageService } from 'src/app/services/image.service';
+import { FormControl, Validators } from '@angular/forms';
+import { FileInput } from 'ngx-material-file-input';
+import { ThemePalette } from '@angular/material/core';
+import { MaxSizeValidator } from '@angular-material-components/file-input';
 
 @Component({
   selector: 'app-products-admin',
@@ -27,11 +33,31 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
   name = ""
   price = 0.0
   quantity = 0
+  image = ""
+  description = ""
+  tags = ""
 
-  constructor(private fetch: FetchServiceService, private prodService: ProductService) {}
+  color: ThemePalette = 'primary';
+  disabled: boolean = false;
+  accept = "image/*"
+
+  fileControl: FormControl
+
+  public file: FileInput
+  maxSize= 16;
+
+  constructor(private fetch: FetchServiceService, private prodService: ProductService, private imagesService: ImageService) {
+    this.fileControl = new FormControl(this.file, [
+      Validators.required,
+      MaxSizeValidator(this.maxSize * 1024)
+    ])
+  }
 
   ngOnInit() {
     this.fetchProducts()
+    this.fileControl.valueChanges.subscribe((file: any) => {
+      this.file = file;
+  })
   }
 
   ngAfterViewInit(){
@@ -53,15 +79,42 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
     this.name = row.name
     this.price = row.price
     this.quantity = row.quantity
+    this.image = row.image_url
+    this.description = row.description
+    this.tags = row.tags.join(" ")
   }
 
-  edit(){
+  async edit(){
+
     if(!this.selectedRow) alert("Należy wybrać produkt")
     else{
+
+      var editable = true;
+      this.image = this.selectedRow.image_url
+
+      if(this.image){
+        const file =this.file.files[0]
+
+        const formData = new FormData()
+        formData.append('file', file)
+        const uploaded = await this.imagesService.uploadImage(formData).toPromise();
+        editable = uploaded.success
+        if(editable){
+          this.image = uploaded.name
+          const deleted = await this.imagesService.deleteImage(this.selectedRow.image_url).toPromise();
+          if(!editable) alert (deleted.message)
+        }
+        else alert (uploaded.message)
+      }
+
+      if(editable){
       const editData = {
         name: this.name,
         price: this.price,
-        quantity: this.quantity
+        quantity: this.quantity,
+        image: this.image,
+        description: this.description,
+        tags: this.tags.split(" ")
       }
       this.prodService.editProduct(this.selectedRow._id, editData).subscribe(res => {
         if(res.success) {
@@ -72,6 +125,7 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
 
       })
     }
+  }
   }
 
   searchButtonClick(){
@@ -96,7 +150,6 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
     else{
       this.reload()
     }
-
 
   }
 

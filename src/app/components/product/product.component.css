@@ -7,7 +7,7 @@
 .image{
     margin: 5px;
     width: min-content;
-    height: 150px;
+    height: 200px;
     display: inline-block;
     border: 1px gray solid;
 }

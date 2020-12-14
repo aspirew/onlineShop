@@ -6,7 +6,7 @@
 <div style="text-align: center;">
 <div class="wrapper" *ngIf="productData != null">
     <div class="image">
-        <img src="{{productData.image_url}}">
+        <img src="/api/images/{{productData.image_url}}" height = "200px">
     </div>
     <div class="actionButtons">
         <h1>{{productData.name}}</h1>

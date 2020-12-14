@@ -92,6 +92,7 @@ export class CartComponent implements OnDestroy {
     console.log(cartData)
 
     const orderData: order = {
+      _id: null,
       email: null,
       deliveryDetails: null,
       status: null,

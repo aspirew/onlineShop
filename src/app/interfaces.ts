@@ -61,10 +61,12 @@ export interface cartInterface {
 export interface constants {
   STANDARD_HOURS: Array<string>,
   CLOSED_AT: Array<number>,
-  OPENED_UNTIL: number
+  OPENED_UNTIL: number,
+  ORDER_STATUS: Array<String>
 }
 
 export interface order {
+  _id: string,
   email: String,
   products: Array<cartData>,
   value: Number,

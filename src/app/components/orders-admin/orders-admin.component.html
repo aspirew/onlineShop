@@ -1,4 +1,19 @@
-<table *ngIf="loaded" mat-table [dataSource]="orders" matSort class="mat-elevation-z8">
+<form (ngSubmit)="searchButtonClick()">
+  <mat-form-field class="search">
+    <mat-label>Szukaj produktu</mat-label>
+    <input matInput name="searchPhrase" [(ngModel)]="searchPhrase">
+  </mat-form-field>
+  <button mat-icon-button type="submit">
+    <mat-icon>search</mat-icon>
+  </button>
+</form>
+
+<mat-spinner *ngIf="!loaded"></mat-spinner>
+
+<div *ngIf="loaded">
+
+<table mat-table [dataSource]="orders" matSort class="mat-elevation-z8">
+
 
   <ng-container matColumnDef="email">
     <th mat-header-cell *matHeaderCellDef> Email </th>
@@ -28,8 +43,10 @@
   (click)="select(row)"></tr>
 </table>
 
+<h1>Dane dostawy: </h1>
 <div *ngIf="selectedRow">
-  <h1>Dane dostawy: </h1>
+<div class="orderInfo">
+
   <h2>Imię: {{selectedRow.deliveryDetails.name}}</h2>
   <h2>Nazwisko: {{selectedRow.deliveryDetails.surname}}</h2>
   <h2>Ulica: {{selectedRow.deliveryDetails.street}}</h2>
@@ -37,4 +54,13 @@
   <h2>Numer mieszkania: {{selectedRow.deliveryDetails.flatNum}}</h2>
   <h2>Miasto: {{selectedRow.deliveryDetails.city}}</h2>
   <h2>Kod pocztowy: {{selectedRow.deliveryDetails.zip}}</h2>
+</div>
+<div class ="order-settings">
+  <button mat-raised-button (click)="changeStatus(sentStatus)">Oznacz jako wysłane</button><br><br>
+  <button mat-raised-button (click)="changeStatus(cancelledStatus)">Oznacz jako anulowane</button>
+</div>
+<div style="clear: both;"></div>
+</div>
+<button mat-raised-button (click)="loadMore()">{{optionButtonLabel}}</button>
+
 </div>

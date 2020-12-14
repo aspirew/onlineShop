@@ -37,3 +37,20 @@ table {
   background: #5cc080;
   cursor: pointer;
 }
+
+.orderInfo {
+  float: left;
+  width: fit-content;
+}
+
+.order-settings{
+  float: right;
+}
+
+form {
+  text-align: center;
+}
+
+.search{
+  width: 40vw;
+}

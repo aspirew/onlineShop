@@ -44,7 +44,7 @@ import { ReservationsAdminComponent } from './components/reservations-admin/rese
 import { OrdersAdminComponent } from './components/orders-admin/orders-admin.component';
 import { AdminUsersComponent } from './components/admin-users/admin-users.component';
 import { OrderComponent } from './components/order/order.component';
-import { NewProductComponent } from './new-product/new-product.component';
+import { NewProductComponent } from './components/new-product/new-product.component';
 import { AdminNewProductComponent } from './components/admin-new-product/admin-new-product.component';
 import { CartPromptComponent } from './components/cart-prompt/cart-prompt.component';
 

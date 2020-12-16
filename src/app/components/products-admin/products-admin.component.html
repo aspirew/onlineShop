@@ -35,7 +35,7 @@
   <tr mat-row
   *matRowDef="let row; columns: displayedColumns;"
   class="element-row"
-  [class.expanded]="selectedRow == row"
+  [class.expanded]="selectedRows.includes(row)"
   (click)="select(row)"></tr>
 </table>
 
@@ -74,13 +74,14 @@
     </ngx-mat-file-input>
   </mat-form-field>
   <br>
-    <button mat-button type="submit">
+    <button mat-button type="submit" [disabled]="selectedRows.length != 1">
         Zatwierdź
     </button>
   </div>
 
 </form>
-<button style="float: right;" mat-raised-button (click)="loadMore()">{{optionButtonLabel}}</button>
+<button style="float: right;" mat-raised-button (click)="loadMore()">{{optionButtonLabel}}</button><br><br>
+<button [disabled]="selectedRows.length < 1" style="float: right;" mat-raised-button color="warn" (click)="delete()">Usuń produkt</button>
 <div style="clear: both;"></div>
 
 </div>

@@ -25,7 +25,7 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
   page = 1
   beingLoad = true
   displayedColumns = ['name', 'price', 'quantity']
-  selectedRow: productData = null
+  selectedRows: Array<productData> = []
   searchPhrase = ""
   optionButtonLabel = ""
   searchMode = false
@@ -75,22 +75,37 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
   }
 
   select(row: productData){
-    this.selectedRow = row
-    this.name = row.name
-    this.price = row.price
-    this.quantity = row.quantity
-    this.image = row.image_url
-    this.description = row.description
-    this.tags = row.tags.join(" ")
-  }
+
+    if(!this.selectedRows.includes(row))
+      this.selectedRows.push(row);
+    else 
+      this.selectedRows = this.selectedRows.filter(e => e != row)
+
+    if(this.selectedRows.length == 1){
+      this.name = this.selectedRows[0].name
+      this.price = this.selectedRows[0].price
+      this.quantity = this.selectedRows[0].quantity
+      this.image = this.selectedRows[0].image_url
+      this.description = this.selectedRows[0].description
+      this.tags = this.selectedRows[0].tags.join(" ")
+    }
+    else{
+      this.name = null
+      this.price = null
+      this.quantity = null
+      this.image = null
+      this.description = null
+      this.tags = null
+    }
+}
 
   async edit(){
 
-    if(!this.selectedRow) alert("Należy wybrać produkt")
+    if(this.selectedRows.length != 1) alert("Nieprawidłowy dobór produktów")
     else{
 
       var editable = true;
-      this.image = this.selectedRow.image_url
+      this.image = this.selectedRows[0].image_url
 
       if(this.image){
         const file =this.file.files[0]
@@ -101,7 +116,7 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
         editable = uploaded.success
         if(editable){
           this.image = uploaded.name
-          const deleted = await this.imagesService.deleteImage(this.selectedRow.image_url).toPromise();
+          const deleted = await this.imagesService.deleteImage(this.selectedRows[0].image_url).toPromise();
           if(!editable) alert (deleted.message)
         }
         else alert (uploaded.message)
@@ -116,7 +131,7 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
         description: this.description,
         tags: this.tags.split(" ")
       }
-      this.prodService.editProduct(this.selectedRow._id, editData).subscribe(res => {
+      this.prodService.editProduct(this.selectedRows[0]._id, editData).subscribe(res => {
         if(res.success) {
           alert("Edycja powiodła się!")
           this.reload()
@@ -126,6 +141,16 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
       })
     }
   }
+  }
+
+  delete(){
+    if(confirm(`Are you sure you want to delete selected products`)){
+      this.prodService.deleteProducts(this.selectedRows).subscribe(res => {
+        alert(res.message)
+        if(res.success) 
+          this.reload();
+      })
+    }
   }
 
   searchButtonClick(){
@@ -155,7 +180,7 @@ export class ProductsAdminComponent implements OnInit, AfterViewInit {
 
   reload(){
     this.page = 1
-    this.selectedRow = null
+    this.selectedRows = []
     this.products.data = []
     this.optionButtonLabel = "Załaduj więcej"
     this.fetchProducts()

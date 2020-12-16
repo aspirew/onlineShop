@@ -27,4 +27,10 @@ export class ProductService {
     }
     else return {success: imageUploadRes.success, message: imageUploadRes.message}
   }
+
+  deleteProducts(products : Array<productData>){
+    console.log("deleteing" + products.map(p => p._id))
+    return this.http.post<status>(`/api/delete/products`, { ids: products.map(p => p._id)} );
+  }
+
 }

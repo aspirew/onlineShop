@@ -75,4 +75,12 @@ export interface order {
   date: Date
 }
 
+export interface tag {
+  _id: string,
+  name: string
+}
 
+export interface boundTag {
+  tag: tag,
+  isBound: boolean
+}

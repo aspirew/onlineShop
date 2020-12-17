@@ -1,10 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { productData, tag } from '../interfaces';
+import { boundTag, productData, tag } from '../interfaces';
 import { ImageService } from './image.service';
 
 interface status {
   success: boolean,
+  message: string
+}
+
+interface msg {
   message: string
 }
 
@@ -34,7 +38,15 @@ export class ProductService {
   }
 
   getAllTags(){
-    return this.http.get<Array<tag>>('/api/tags')
+    return this.http.get<Array<boundTag>>('/api/tags')
+  }
+
+  addTags(tags: Array<string>){
+    return this.http.post<msg>('/api/tags/add', {tags})
+  }
+
+  deleteTags(tags: Array<tag>){
+    return this.http.post<msg>('/api/tags/delete', {tags})
   }
 
 }

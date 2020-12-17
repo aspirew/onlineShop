@@ -23,6 +23,7 @@ import { AdminLoginGuard } from 'src/app/admin-login.guard'
 import { AdminUsersComponent } from 'src/app/components/admin-users/admin-users.component'
 import { OrderComponent } from 'src/app/components/order/order.component'
 import { AdminNewProductComponent } from 'src/app/components/admin-new-product/admin-new-product.component'
+import { AdminTagsComponent } from 'src/app/components/admin-tags/admin-tags.component'
 
 
 export default [
@@ -108,6 +109,11 @@ export default [
     {
       path: 'admin/products/new',
       component: AdminNewProductComponent,
+      canActivate: [AdminGuard]
+    },
+    {
+      path: 'admin/tags',
+      component: AdminTagsComponent,
       canActivate: [AdminGuard]
     },
     {

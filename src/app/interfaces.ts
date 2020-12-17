@@ -80,4 +80,7 @@ export interface tag {
   name: string
 }
 
-
+export interface boundTag {
+  tag: tag,
+  isBound: boolean
+}

@@ -1,0 +1,47 @@
+table {
+    width: 100%;
+    margin: 20px;
+  }
+  
+  .mat-row {
+    height: auto;
+  }
+  
+  .mat-cell {
+    padding: 8px 8px 8px 0;
+  }
+  
+  .highlight{
+    background: #42A948; /* green */
+  }
+  
+  .mat-table {
+    overflow: auto;
+    max-height: 500px;
+  }
+  
+  .element-row:not(.expanded) {
+    cursor: pointer;
+  }
+  
+  .element-row:not(.expanded):hover {
+    background: #f5f5f5;
+  }
+  
+  .element-row.expanded {
+    border-bottom-color: transparent;
+    background: #42A948;
+  }
+  
+  .element-row.expanded:hover {
+    background: #5cc080;
+    cursor: pointer;
+  }
+  
+  form {
+    text-align: center;
+  }
+
+  .action-div{
+      margin-top: 40px;
+  }

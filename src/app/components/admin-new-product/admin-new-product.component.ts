@@ -46,7 +46,7 @@ export class AdminNewProductComponent implements OnInit {
 
      this.productsService.getAllTags().subscribe(res => {
        console.log(res)
-       this.availableTags = res.map(t => t.name)       
+       this.availableTags = res.map(t => t.tag.name)       
      })
    }
 

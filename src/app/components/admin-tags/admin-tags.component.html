@@ -1,0 +1,43 @@
+<h1>Zarządzaj tagami</h1>
+
+<mat-spinner *ngIf="beingLoad"></mat-spinner>
+
+<div [hidden]="beingLoad">
+
+<table mat-table [dataSource]="tags" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="name">
+      <th mat-header-cell *matHeaderCellDef> Nazwa </th>
+      <td mat-cell *matCellDef="let res"> {{res.tag.name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="isBound">
+        <th mat-header-cell *matHeaderCellDef> Czy powiązany </th>
+        <td mat-cell *matCellDef="let res"> {{parseBoolean(res.isBound)}} </td>
+      </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row
+    *matRowDef="let row; columns: displayedColumns;"
+    class="element-row"
+    [class.expanded]="selectedTags.includes(row)"
+    (click)="select(row)"></tr>
+  </table>
+
+  <div class="action-div">
+    <form style="float: left;" (ngSubmit)="addTags()">
+        <mat-form-field style="width:100%">
+            <mat-label>Nowe tagi</mat-label>
+            <input matInput [(ngModel)]="newTags" name="tag">
+        </mat-form-field><br>
+        <button  mat-button type="submit" [disabled]="newTags.length < 1">
+            Dodaj nowe tagi
+        </button>
+    </form>
+    <button mat-raised-button color="warn" [disabled]="selectedTags.length < 1" style="float: right" (click)="deleteTags()"> 
+        Usuń zaznaczone tagi 
+    </button><br>
+  </div>
+  <div style="clear: both"></div>
+
+</div>

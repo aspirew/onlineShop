@@ -107,7 +107,8 @@ export default [
     },
     {
       path: 'admin/products/new',
-      component: AdminNewProductComponent
+      component: AdminNewProductComponent,
+      canActivate: [AdminGuard]
     },
     {
       path: 'order/:id',

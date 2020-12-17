@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { productData } from '../interfaces';
+import { productData, tag } from '../interfaces';
 import { ImageService } from './image.service';
 
 interface status {
@@ -31,6 +31,10 @@ export class ProductService {
   deleteProducts(products : Array<productData>){
     console.log("deleteing" + products.map(p => p._id))
     return this.http.post<status>(`/api/delete/products`, { ids: products.map(p => p._id)} );
+  }
+
+  getAllTags(){
+    return this.http.get<Array<tag>>('/api/tags')
   }
 
 }

@@ -4,7 +4,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { AcceptValidator, MaxSizeValidator } from '@angular-material-components/file-input';
 import { FileInput } from 'ngx-material-file-input';
 import { ProductService } from 'src/app/services/product.service';
-import { productData } from 'src/app/interfaces';
+import { productData, tag } from 'src/app/interfaces';
 
 @Component({
   selector: 'app-admin-new-product',
@@ -21,7 +21,7 @@ export class AdminNewProductComponent implements OnInit {
   newTags = ""
   description = ""
 
-  availableTags= ["jedne", "dwa", "trzy"]
+  availableTags : Array<string> = []
 
   color: ThemePalette = 'primary';
    disabled: boolean = false;
@@ -42,6 +42,11 @@ export class AdminNewProductComponent implements OnInit {
     ngOnInit() {
      this.fileControl.valueChanges.subscribe((file: any) => {
          this.file = file;
+     })
+
+     this.productsService.getAllTags().subscribe(res => {
+       console.log(res)
+       this.availableTags = res.map(t => t.name)       
      })
    }
 

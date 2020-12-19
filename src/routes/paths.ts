@@ -24,6 +24,7 @@ import { AdminUsersComponent } from 'src/app/components/admin-users/admin-users.
 import { OrderComponent } from 'src/app/components/order/order.component'
 import { AdminNewProductComponent } from 'src/app/components/admin-new-product/admin-new-product.component'
 import { AdminTagsComponent } from 'src/app/components/admin-tags/admin-tags.component'
+import { OwnerOfOrderGuard } from 'src/app/owner-of-order.guard'
 
 
 export default [
@@ -118,7 +119,8 @@ export default [
     },
     {
       path: 'order/:id',
-      component: OrderComponent
+      component: OrderComponent,
+      canActivate: [OwnerOfOrderGuard]
     },
     {
         path: '404',

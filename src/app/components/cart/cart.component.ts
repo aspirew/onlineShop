@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { cartInterface, order, cartData } from '../../interfaces'
 import { FetchServiceService } from '../../services/fetch-service.service';
 import { Observable } from 'rxjs';
@@ -32,23 +32,36 @@ export class CartComponent implements OnDestroy {
     private fetch: FetchServiceService,
     private breakpointObserver: BreakpointObserver,
     private user: UserService,
-    private router: Router) {
-    let tmpCart = this.cartService.getProductsInCart() || []
-    let resolved = 0
-    if(tmpCart.length > 0){
-      tmpCart.forEach(p => this.fetch.getProductById(p.productID).toPromise()
-        .then(
-          res => {
-            this.cart.push( { product: res, quantity: p.quantity } )
-            if(++resolved >= tmpCart.length){
-              this.summedPrice = this.calculateSummedPrice()
-              this.isLoaded = true
-            }
-          }
-        ))
+    private router: Router) { }
 
+  async ngOnInit(){
+
+    const previousOrderExists = await this.user.checkUnregisteredUserHasInitializedOrder().toPromise()
+
+    console.log(previousOrderExists)
+
+    if(previousOrderExists.status){
+      this.router.navigate(['/order', previousOrderExists.order_id])
     }
-    else this.isLoaded = true
+
+    else {
+      let tmpCart = this.cartService.getProductsInCart() || []
+      let resolved = 0
+      if(tmpCart.length > 0){
+        tmpCart.forEach(p => this.fetch.getProductById(p.productID).toPromise()
+          .then(
+            res => {
+              this.cart.push( { product: res, quantity: p.quantity } )
+              if(++resolved >= tmpCart.length){
+                this.summedPrice = this.calculateSummedPrice()
+                this.isLoaded = true
+              }
+            }
+          ))
+
+      }
+      else this.isLoaded = true
+    }
   }
 
   async ngOnDestroy() {

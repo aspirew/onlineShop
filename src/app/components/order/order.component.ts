@@ -46,7 +46,7 @@ export class OrderComponent implements OnInit {
   loaded = false
   totalCost = 0
 
-  ngOnInit(): void { //need for guard
+  ngOnInit(): void {
     this.route.params.subscribe(async par => {
       this.id = par.id
       this.order = await this.orderService.getOrder(this.id).toPromise()
@@ -69,8 +69,8 @@ export class OrderComponent implements OnInit {
           this.name = usr.deliveryDetails.name
           this.surname = usr.deliveryDetails.surname
           this.street = usr.deliveryDetails.street
-          this.houseNum = usr.deliveryDetails.houseNum.toString()
-          this.flatNum = usr.deliveryDetails.flatNum.toString()
+          this.houseNum = usr.deliveryDetails.houseNum?.toString()
+          this.flatNum = usr.deliveryDetails.flatNum?.toString()
           this.city = usr.deliveryDetails.city
           this.zip = usr.deliveryDetails.zip
         }
@@ -82,8 +82,8 @@ export class OrderComponent implements OnInit {
   }
 
   deliveryReady(){
-    return this.name.length > 0 && this.surname.length && this.street.length &&
-    this.houseNum.length > 0 && this.city.length > 0 && this.zip.length > 0
+    return this.name?.length > 0 && this.surname?.length && this.street?.length &&
+    this.houseNum?.length > 0 && this.city?.length > 0 && this.zip?.length > 0
   }
 
   fillDeliveryData(){

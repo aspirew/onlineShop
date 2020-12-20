@@ -66,11 +66,13 @@ export class CartService {
 
     return this.fetch.getProductById(itemID).toPromise().then(res => {
 
-      if(res.quantity - alreadyInCart - toPutIntoCart < 0) {
-        return false
+      console.log(res?.quantity - alreadyInCart - toPutIntoCart)
+      
+      if(res?.quantity - alreadyInCart - toPutIntoCart >= 0) {
+        return true
       }
 
-      return true
+      return false
 
     })
   }

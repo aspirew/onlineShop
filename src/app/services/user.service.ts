@@ -7,6 +7,11 @@ interface status {
   status: boolean
 }
 
+interface unregisteredStatus {
+  order_id: string,
+  status: boolean
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -36,5 +41,9 @@ export class UserService {
 
   changeUserPassword(currentPassword, newPassword){
     return this.http.post<status>('/api/changePass', {cPass: currentPassword, newPass: newPassword})
+  }
+
+  checkUnregisteredUserHasInitializedOrder(){
+    return this.http.get<unregisteredStatus>('/api/data/unregisteredOrderInitialized')
   }
 }

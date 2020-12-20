@@ -45,31 +45,40 @@ export class CartComponent implements OnDestroy {
     }
 
     else {
-      let tmpCart = this.cartService.getProductsInCart() || []
-      let resolved = 0
-      if(tmpCart.length > 0){
-        tmpCart.forEach(p => this.fetch.getProductById(p.productID).toPromise()
-          .then(
-            res => {
-              this.cart.push( { product: res, quantity: p.quantity } )
-              if(++resolved >= tmpCart.length){
-                this.summedPrice = this.calculateSummedPrice()
-                this.isLoaded = true
-              }
-            }
-          ))
-
-      }
-      else this.isLoaded = true
+      this.reload()
     }
   }
 
   async ngOnDestroy() {
+    await this.updateCart()
+  }
+
+  async updateCart(){
     const loggedIn = (await this.user.isLoggedIn().toPromise()).status
     await this.cartService.saveNewCart(this.cart)
     if(loggedIn != (await this.user.isLoggedIn().toPromise()).status)
       this.cartService.clearLocalCart()
+  }
 
+  reload(){
+    this.cart = []
+    this.isLoaded = false
+    let tmpCart = this.cartService.getProductsInCart() || []
+    let resolved = 0
+    if(tmpCart.length > 0){
+      tmpCart.forEach(p => this.fetch.getProductById(p.productID).toPromise()
+        .then(
+          res => {
+            this.cart.push( { product: res, quantity: p.quantity } )
+            if(++resolved >= tmpCart.length){
+              this.summedPrice = this.calculateSummedPrice()
+              this.isLoaded = true
+            }
+          }
+        ))
+
+    }
+    else this.isLoaded = true
   }
 
   increaseNumItem(item: cartInterface, num: number){
@@ -96,11 +105,27 @@ export class CartComponent implements OnDestroy {
     return Math.round((this.cart.reduce((acc, p) => acc + p.quantity * p.product.price, 0) + Number.EPSILON) * 100) / 100
   }
 
-  order(){
+  async order(){
     const cartData: Array<cartData> = []
+
     this.cart.forEach(p => {
       cartData.push({productID: p.product._id, quantity: p.quantity})
     })
+
+    const asyncEvery = async (arr, predicate) => {
+      for(let e of arr){
+        if(!await predicate(e)) return false
+      }
+      return true
+    }
+    
+    const allAvailable = await asyncEvery(cartData, async c => {
+      return await this.cartService.checkProductAvailable(c.productID, 0, c.quantity)
+    })
+
+    console.log(allAvailable)
+
+    if(allAvailable){
 
     console.log(cartData)
 
@@ -126,5 +151,10 @@ export class CartComponent implements OnDestroy {
     })
 
   }
-
+  else{
+    await this.updateCart()
+    this.reload()
+    alert("Niektóre przedmioty przestały być dostępne. Ich ilość została zmodyfikowana")
+  }
+}
 }

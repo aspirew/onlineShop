@@ -66,6 +66,8 @@ export class CartService {
 
     return this.fetch.getProductById(itemID).toPromise().then(res => {
 
+      console.log(res?.quantity - alreadyInCart - toPutIntoCart)
+      
       if(res?.quantity - alreadyInCart - toPutIntoCart >= 0) {
         return true
       }

@@ -3,23 +3,34 @@
 <div *ngIf="!beingLoaded">
 <h1>Zaloguj się</h1>
 
+<div style="text-align: center; width:25vw">
 <form (ngSubmit)="loginUser($event)">
-  <div style="text-align: center; width:25vw">
     <mat-form-field style="width:100%">
       <mat-label>E-mail</mat-label>
-      <input matInput id="username">
+      <input matInput name="email" [(ngModel)]="email" [formControl]="emailFormControl" [errorStateMatcher]="matcher">
+      <mat-error *ngIf="emailFormControl.hasError('required')">
+        Email jest wymagany
+      </mat-error>
+      <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+        Błędny adres email
+      </mat-error>
     </mat-form-field><br>
     <mat-form-field style="width:100%">
         <mat-label>Hasło</mat-label>
-        <input matInput type="password" id="password">
-    </mat-form-field><br>
-    <button mat-button type="submit">
+        <input matInput type="password" name="password" [(ngModel)]="password" [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="passwordFormControl.hasError('required')">
+          Hasło jest wymagane
+        </mat-error>
+      </mat-form-field><br>
+    <button mat-button type="submit" [disabled]="emailFormControl.invalid || passwordFormControl.invalid">
         Zaloguj
     </button>
-    <button mat-button color="warn" (click)="this.utils.navigate('/register')"> 
-        Zarejestruj
-    </button>
-  </div>
-    
 </form>
+<button mat-button color="warn" (click)="this.utils.navigate('/register')"> 
+  Zarejestruj
+</button>
+<button mat-button (click)="resetPassword()" [disabled]="emailFormControl.invalid"> 
+Resetuj hasło
+</button>
+</div>
 </div>

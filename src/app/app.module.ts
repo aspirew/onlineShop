@@ -48,6 +48,7 @@ import { NewProductComponent } from './components/new-product/new-product.compon
 import { AdminNewProductComponent } from './components/admin-new-product/admin-new-product.component';
 import { CartPromptComponent } from './components/cart-prompt/cart-prompt.component';
 import { AdminTagsComponent } from './components/admin-tags/admin-tags.component';
+import { OwnerOfOrderGuard } from './owner-of-order.guard';
 
 @NgModule({
   declarations: [
@@ -98,7 +99,7 @@ import { AdminTagsComponent } from './components/admin-tags/admin-tags.component
     ReactiveFormsModule,
     MaterialFileInputModule
   ],
-  providers: [UtilsService, AuthService, AuthGuard, AdminGuard],
+  providers: [UtilsService, AuthService, AuthGuard, AdminGuard, OwnerOfOrderGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -5,7 +5,15 @@ import { Router } from '@angular/router';
 import { UserService } from '../../services/user.service';
 import { CartService } from '../../services/cart.service';
 import { AdminService } from 'src/app/services/admin.service';
+import { FormControl, FormGroupDirective, NgForm, Validators } from '@angular/forms';
+import { ErrorStateMatcher } from '@angular/material/core';
 
+export class MyErrorStateMatcher implements ErrorStateMatcher {
+  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+    const isSubmitted = form && form.submitted;
+    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+  }
+}
 
 @Component({
   selector: 'app-login',
@@ -19,9 +27,23 @@ export class LoginComponent implements OnInit{
     private auth: AuthService,
     private router: Router,
     private cart: CartService,
-    private admin: AdminService) { }
+    private admin: AdminService,
+    private user: UserService) { }
 
   beingLoaded = true
+  email = ""
+  password = ""
+
+  emailFormControl = new FormControl('', [
+    Validators.required,
+    Validators.email,
+  ]);
+
+  passwordFormControl = new FormControl('', [
+    Validators.required
+  ])
+
+  matcher = new MyErrorStateMatcher();
 
   async ngOnInit(){
     if((await this.admin.isLoggedIn().toPromise()).status)
@@ -32,11 +54,8 @@ export class LoginComponent implements OnInit{
   loginUser(event){
     this.beingLoaded = true
     event.preventDefault()
-    const target = event.target
-    const username = target.querySelector('#username').value
-    const password = target.querySelector('#password').value
 
-    this.auth.logUserIn(username, password).subscribe(async data => {
+    this.auth.logUserIn(this.email, this.password).subscribe(async data => {
 
       if(data.success){
         await this.cart.loadUserCartData()
@@ -46,8 +65,18 @@ export class LoginComponent implements OnInit{
         window.alert(data.message)
         this.beingLoaded = false
       }
-    })
+    })  
 
+  }
+
+  resetPassword(){
+    if(this.email)
+      this.user.resetPassword(this.email).subscribe(res => {
+        if(res.status)
+          alert("Na twoją skrzynkę wysłano zresetowane hasło")
+        else
+          alert("Do danego emaila nie przypisano żadnego konta")
+      })  
   }
 
 

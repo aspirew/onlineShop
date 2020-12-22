@@ -46,4 +46,8 @@ export class UserService {
   checkUnregisteredUserHasInitializedOrder(){
     return this.http.get<unregisteredStatus>('/api/data/unregisteredOrderInitialized')
   }
+
+  resetPassword(email: string){
+    return this.http.get<status>(`/api/recover/${email}`)
+  }
 }
